@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		
+	<!-- properties 파일 사용 -->
+	<context:property-placeholder location="classpath:/db.properties"/>
+	
+	<!-- DB 정보를 담고 있는 dataSource를 JDBC로 설정 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${o.driver}"></property>
+		<property name="url" value="${o.url}"></property>
+		<property name="username" value="${o.username}"></property>
+		<property name="password" value="${o.password}"></property>
+	</bean>
+	
+	<!-- Mybatis SqlSessionFactory 생성 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="typeAliasesPackage" value="kr.godz.member.vo"></property>
+		<property name="mapperLocations" value="classpath:/mapper/*.xml"></property>
+	</bean>
+	
+	<!-- DAO 클래스들을 Mapper 파일로 읽음 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="kr.godz.member.dao"></property>
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+	</bean>
+	
+	<!-- MailSender가 사용할 프로퍼티 등록 -->
+	<util:properties id="properties">
+		<prop key="mail.smtp.starttls.enable">true</prop>
+		<prop key="mail.smtp.auth">true</prop>
+		<prop key="mail.transport.protocol">smtp</prop>
+		<prop key="mail.debug">false</prop>
+	</util:properties>	
+	
+	<!-- Mail Send 객체 등록 -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
+		<property name="host" value="smtp.gmail.com"/> 
+		<property name="port" value="587"/> 
+		<property name="username" value="lys7120@gmail.com"/> 
+		<property name="password" value="young92su21146"/> 
+		<property name="javaMailProperties" ref="properties"/> 
+	</bean>
+</beans>

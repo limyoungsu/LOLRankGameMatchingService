@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+	<!-- 
+		"/"로 시작하는 모든 URL에 대해서 layout.html의 구조를 씌운다 
+		layout.html에서 
+			1. sitemesh:write property='title'	; jsp 파일의 title tag의 부분이 들어감 
+			2. sitemesh:write property='head' 	; jsp 파일의 head tag의 부분이 들어감
+			3. sitemesh:write property='body'	; jsp 파일의 body tag 부분이 들어감
+	-->
+	<mapping path="/matching/*" decorator="/resources/decorator/layout.html"/>
+	<mapping path="/" decorator="/resources/decorator/mainLayout.jsp"/>
+	<mapping path="/member/*" decorator="/resources/decorator/mainLayout.jsp"/>
+	
+	<!-- SITEMESH FILTER 제외주소 등록 -->
+	<mapping path="/except/*" exclue="true"/>
+</sitemesh>
