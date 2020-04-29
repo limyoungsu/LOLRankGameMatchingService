@@ -34,7 +34,7 @@
 			</div>
 			<div id="btn-container">
 				<button class="btn btn-danger btn-func" id="logoutBtn" onclick="location.href='./member/logout'">로그아웃</button>
-				<button class="btn btn-danger btn-func" id="serviceBtn" onclick="location.href='./matching'">서비스 시작</button>
+				<button class="btn btn-danger btn-func" id="serviceBtn" onclick="location.href='./matching/home'">서비스 시작</button>
 			</div>
 		</c:if>
 	</div>		
