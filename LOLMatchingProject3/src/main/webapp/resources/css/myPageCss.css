@@ -1,0 +1,25 @@
+h1 {
+	text-align: center;
+	padding-top: 50px;
+	color: #222;
+}
+
+a {
+	color: #222;	
+}
+
+#card-container {
+	border-top: 1px solid gainsboro;
+	border-bottom: 1px solid gainsboro;
+	border-radius: 10px;
+	width: 50%;
+	background-color: brown;
+	margin: 0 auto;
+}
+
+#card-content {
+	border-radius: 10px;
+	width: 94%;
+	background-color: #ddd;
+	margin: 3%;
+}

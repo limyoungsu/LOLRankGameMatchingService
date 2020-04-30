@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.godz.member.service.MemberService;
-import kr.godz.member.vo.MemberVO;
+import kr.godz.service.MemberService;
+import kr.godz.vo.MemberVO;
 
 /**
  * Handles requests for the application home page.

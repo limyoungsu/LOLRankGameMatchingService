@@ -1,6 +1,6 @@
-package kr.godz.member.dao;
+package kr.godz.dao;
 
-import kr.godz.member.vo.MemberVO;
+import kr.godz.vo.MemberVO;
 
 public interface MemberDAO {
 	// DB에 사용자 정보 저장

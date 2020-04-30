@@ -150,7 +150,6 @@ sup {
 }
 
 a {
-	color: #007bff;
 	text-decoration: none;
 	background-color: transparent
 }
@@ -4083,7 +4082,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 }
 
 .nav-tabs .nav-link {
-	border: 1px solid transparent;
+	border: 1px solid #999;
 	border-top-left-radius: .25rem;
 	border-top-right-radius: .25rem
 }

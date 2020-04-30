@@ -4,7 +4,6 @@
 
 html, body {
     margin: 0;
-    height: 100%;
     font-size: 15px;
 }
 
@@ -18,7 +17,7 @@ html, body {
 }
 
 #top-container {
-	background-color: royalblue;
+	background-color: maroon;
 	color: #fff;
 }
 
@@ -27,8 +26,8 @@ html, body {
 }
 
 #top-content>div:first-child {	
-	line-height: 70px;
-	font-size: 4rem;
+	line-height: 55px;
+	font-size: 3rem;
 }
 
 #top-content>div:last-child {
@@ -44,18 +43,22 @@ html, body {
 }
 
 #top2-container {
-	background-color: slategray;
+	background-color: #888;
 	color: #fff;
 }
 
 #top2-content {
-	line-height: 70px;
-	font-size: 2rem;
+	line-height: 55px;
+	font-size: 1.5rem;
 	text-align: center;
 }
 
 #top2-content>.row {
 	height: inherit;
+}
+
+#top2-content>div:hover {
+	background: darkgray;
 }
 
 .col-sm>a {
@@ -68,6 +71,7 @@ html, body {
 }
 
 #body-container {
+	padding-bottom: 20px;
 	background-color: gainsboro;
 	height: inherit;
 }
@@ -87,6 +91,6 @@ html, body {
 }
 
 #infoBtn {
-	margin-top: 20px;
+	margin-top: 12.5px;
 	height: 30px;
 }

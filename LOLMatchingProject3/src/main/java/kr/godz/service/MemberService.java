@@ -1,4 +1,4 @@
-package kr.godz.member.service;
+package kr.godz.service;
 
 import java.util.Random;
 
@@ -14,8 +14,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
-import kr.godz.member.dao.MemberDAO;
-import kr.godz.member.vo.MemberVO;
+import kr.godz.dao.MemberDAO;
+import kr.godz.vo.MemberVO;
 
 @Service
 public class MemberService {

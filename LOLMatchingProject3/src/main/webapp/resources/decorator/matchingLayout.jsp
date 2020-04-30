@@ -11,7 +11,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-		
+	
 	});
 </script>
 <sitemesh:write property='head' />
@@ -20,7 +20,7 @@
 	<div id="top-container" class="container-box">
 		<div id="top-content" class="content-box row">
 			<div class="col-sm">
-				<a href="${pageContext.request.contextPath }/matching/mypage">LOGO</a>
+				LOGO
 			</div>
 			<div class="col-sm">
 				<div class="dropdown">
@@ -28,7 +28,7 @@
 				    	UserInfo
 				  	</button>
 				  	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				    	<a class="dropdown-item" href="${pageContext.request.contextPath }/matching/mypage">마이페이지</a>
+				    	<a class="dropdown-item" href="${pageContext.request.contextPath }/">홈으로</a>
 				    	<a class="dropdown-item" href="${pageContext.request.contextPath }/member/logout">로그아웃</a>
 				  	</div>
 				</div>

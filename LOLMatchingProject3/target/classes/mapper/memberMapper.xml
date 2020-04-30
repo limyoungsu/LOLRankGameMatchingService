@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.godz.member.dao.MemberDAO">
+<mapper namespace="kr.godz.dao.MemberDAO">
 	<insert id="insert" parameterType="MemberVO">
 		insert into lol_member values
 		(lolmember_idx_seq.nextval, #{userId}, #{password}, #{userName}, #{nickName}, #{summonerName}, #{birth}, #{phone}, sysdate, 0, #{emailToken})

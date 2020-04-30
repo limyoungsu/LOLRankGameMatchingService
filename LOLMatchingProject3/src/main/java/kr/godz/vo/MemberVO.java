@@ -1,4 +1,4 @@
-package kr.godz.member.vo;
+package kr.godz.vo;
 
 import java.util.Date;
 
