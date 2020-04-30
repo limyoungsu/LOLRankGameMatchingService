@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MatchingController {
 	@RequestMapping(value = "/matching/home")
 	public String matchingHome() {
-		return "matchingHome";
+		return "/matching/matchingHome";
 	}
 }

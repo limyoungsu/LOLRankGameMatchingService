@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -12,10 +12,32 @@
 <sitemesh:write property='head' />
 </head>
 <body>
-	MATCHING
-	<div id="body-bg">
-		<div id="main-bg">
-			<sitemesh:write property='body' />
+	<div id="top-container">
+		<div id="top-content">
+			<a href="${pageContext.request.contextPath }/matching/home">LOGO</a>
+		</div>
+	</div>
+	<div id="top2-container">
+		<div id="top2-content">
+			<div class="row">
+				<div class="col-sm">
+					<a href="${pageContext.request.contextPath }/matching/solorank">솔로랭크</a>
+				</div>
+				<div class="col-sm">
+					<a href="${pageContext.request.contextPath }/matching/freerank">자유랭크</a>
+				</div>
+				<div class="col-sm">
+				
+				</div>
+				<div class="col-sm">
+				
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="body-container">
+		<div id="body-content">
+			<sitemesh:write property="body"/>
 		</div>
 	</div>
 </body>

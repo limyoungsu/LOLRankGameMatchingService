@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Matching Main</title>
 </head>
 <body>
-	HIHI
+	<h1>Matching Main Page</h1>
 </body>
 </html>
