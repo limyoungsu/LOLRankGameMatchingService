@@ -122,7 +122,7 @@ public class MemberService {
 			                        + "<a href='http://localhost:8081/lol/member/confirm?userId="+memberVO.getUserId()
 			                        + "&emailToken="+memberVO.getEmailToken()+"'>인증</a><br>");
                 // 위의 url에 random key도 추가해서 넘기자
-                mimeMessage.setSubject("[LOL러가자]회원 가입을 축하드립니다.");
+                mimeMessage.setSubject("[LOL자]회원 가입을 축하드립니다.");
             }
         };
         return preparator;

@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class MatchingController {
-	@RequestMapping(value = "/matching/home")
+	@RequestMapping(value = "/matching/mypage")
 	public String matchingHome() {
-		return "/matching/matchingHome";
+		return "/matching/mypage";
 	}
 }

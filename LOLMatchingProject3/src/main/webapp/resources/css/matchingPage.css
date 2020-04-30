@@ -5,21 +5,34 @@
 html, body {
     margin: 0;
     height: 100%;
-    overflow: hidden;
-    font-size: 10px;
+    font-size: 15px;
+}
+
+.container-box {
+	width: 100%;
+}
+
+.content-box {
+	width: 60%;
+	margin: 0 auto;
 }
 
 #top-container {
-	width: 100%;
 	background-color: royalblue;
 	color: #fff;
 }
 
 #top-content {
-	width: 80%;
-	margin: 0 auto;
+
+}
+
+#top-content>div:first-child {	
 	line-height: 70px;
-	font-size: 5rem;
+	font-size: 4rem;
+}
+
+#top-content>div:last-child {
+	text-align: right;
 }
 
 #top-content>a {
@@ -31,16 +44,13 @@ html, body {
 }
 
 #top2-container {
-	width: 100%;
 	background-color: slategray;
 	color: #fff;
 }
 
 #top2-content {
-	width: 80%;
-	margin: 0 auto;
 	line-height: 70px;
-	font-size: 3rem;
+	font-size: 2rem;
 	text-align: center;
 }
 
@@ -58,12 +68,25 @@ html, body {
 }
 
 #body-container {
-	width: 100%;
 	background-color: gainsboro;
 	height: inherit;
 }
 
 #body-content {
-	width: 80%;
-	margin: 0 auto;
+	
+}
+
+#footer-container {
+	background-color: gainsboro;
+	height: auto;
+}
+
+#footer-content {
+	border-top: 1px solid gray;
+	padding: 20px;	
+}
+
+#infoBtn {
+	margin-top: 20px;
+	height: 30px;
 }
