@@ -1,4 +1,4 @@
-package kr.godz.member.controller;
+package kr.godz.controller;
 
 import java.security.Principal;
 

@@ -1,4 +1,4 @@
-package kr.godz.member.controller;
+package kr.godz.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
