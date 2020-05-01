@@ -14,6 +14,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.internal.LinkedTreeMap;
+
 import kr.godz.dao.MemberDAO;
 import kr.godz.vo.MemberVO;
 

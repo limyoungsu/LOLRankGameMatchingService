@@ -1,4 +1,4 @@
-h1 {
+h3 {
 	text-align: center;
 	padding-top: 50px;
 	color: #222;
@@ -11,15 +11,40 @@ a {
 #card-container {
 	border-top: 1px solid gainsboro;
 	border-bottom: 1px solid gainsboro;
-	border-radius: 10px;
-	width: 50%;
-	background-color: brown;
+	width: 75%;
 	margin: 0 auto;
 }
 
+nav>#nav-tab>a {
+	text-align: center;
+}
+
+nav>#nav-tab>a:hover {
+	color: brown;
+	border: 1px solid #555;
+}
+
+.match-info {
+	width: 50%;
+}
+
 #card-content {
-	border-radius: 10px;
-	width: 94%;
-	background-color: #ddd;
-	margin: 3%;
+	width: 100%;
+	background-color: #fff;
+}
+
+#card-image {
+	
+}
+
+#card-tier {
+	width: 15%;
+}
+
+#card-tier>img {
+	width: 100%;
+}
+
+#card-text {
+	background: #fff;
 }

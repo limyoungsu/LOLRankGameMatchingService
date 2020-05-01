@@ -71,7 +71,7 @@ html, body {
 }
 
 #body-container {
-	padding-bottom: 20px;
+	padding-bottom: 25px;
 	background-color: gainsboro;
 	height: inherit;
 }
@@ -87,7 +87,6 @@ html, body {
 
 #footer-content {
 	border-top: 1px solid gray;
-	padding: 20px;	
 }
 
 #infoBtn {
