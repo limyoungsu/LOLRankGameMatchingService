@@ -11,7 +11,7 @@ a {
 #card-container {
 	border-top: 1px solid gainsboro;
 	border-bottom: 1px solid gainsboro;
-	width: 75%;
+	width: 650px;
 	margin: 0 auto;
 }
 
@@ -28,8 +28,9 @@ nav>#nav-tab>a:hover {
 	width: 50%;
 }
 
-#card-content {
+#nav-home, #nav-profile{
 	width: 100%;
+	padding: 15px;
 	background-color: #fff;
 }
 
@@ -38,13 +39,30 @@ nav>#nav-tab>a:hover {
 }
 
 #card-tier {
-	width: 15%;
+	width: 20%;
 }
 
-#card-tier>img {
+#card-tier img {
 	width: 100%;
 }
 
 #card-text {
 	background: #fff;
+	text-align: center;
+}
+
+#card-lane {
+	text-align: center;
+}
+
+.lane-img {
+	margin: 17px 0;
+}
+
+.detail-champ {
+	margin: 10px 0;
+}
+
+.detail-champ img {
+	width: 66px;
 }
