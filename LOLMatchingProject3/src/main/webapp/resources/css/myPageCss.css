@@ -63,7 +63,7 @@ nav>#nav-tab>a:hover {
 }
 
 .lane-content {
-	margin: 14px 0;
+	margin: 10px 0;
 }
 
 .lane-content img {
@@ -78,7 +78,7 @@ nav>#nav-tab>a:hover {
 }
 
 .detail-content {
-	margin: 14px 0;
+	margin: 10px 0;
 }
 
 .detail-content>.col-4, .detail-content>.col-8 {

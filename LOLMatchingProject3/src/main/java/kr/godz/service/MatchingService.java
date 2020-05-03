@@ -34,6 +34,7 @@ import kr.godz.vo.SummonerVO;
 public class MatchingService {
 	
 	final private static Logger logger = LoggerFactory.getLogger(MatchingService.class); 
+	static final int champCount = 10;
 	static final String key = "RGAPI-9a9fc5b6-e54b-46a7-9ab4-c6f10f8ee47d";
 	static final String beginTime = "1578596400000";
 	static final String season = "13";			// Current Season
@@ -83,7 +84,7 @@ public class MatchingService {
 		String urlAddress = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"+ summonerName +"?api_key=" + key;
 		svo = gson.fromJson(new InputStreamReader(new URL(urlAddress).openStream()), SummonerVO.class);
 		
-		logger.info("getSummonerAccountInfo return : " + svo);
+		logger.info("getSummonerAccountInfo return : " + svo.getAccountId() + ", " + svo.getId() + ", " + svo.getSummonerLevel());
 		return svo;
 	}
 	
@@ -97,7 +98,7 @@ public class MatchingService {
 		scvo = gson.fromJson(new InputStreamReader(new URL(urlAddress).openStream()), SummonerChampionVO[].class);
 		svo.setScvo(scvo[0]);
 		
-		logger.info("getSummonerChampMastery return : " + svo);
+		logger.info("getSummonerChampMastery return : " + scvo);
 		return svo;
 	}
 	
@@ -117,7 +118,7 @@ public class MatchingService {
 			svo.getLevo().get(levo[i].getQueueType()).setWinRate( ((double)wins / (wins + losses)) * 100 );
 		}	
 
-		logger.info("getSummonerLeagueEntry return : " + svo);
+		logger.info("getSummonerLeagueEntry return : " + levo);
 		return svo;
 	}
 
@@ -164,7 +165,7 @@ public class MatchingService {
 	
 	
 	public MatchInfoVO getChampionRecords(String summonerName, MatchInfoVO matchInfo, Gson gson) throws JsonSyntaxException, JsonIOException, MalformedURLException, IOException {
-		logger.info("getChampionRecords call");
+		logger.info("getChampionRecords call : " + summonerName);
 		
 		ChampionRecordVO crMap = null;
 		
@@ -181,7 +182,7 @@ public class MatchingService {
 		// When Matches.length < 20, repeat count is length, otherwise repeat count is 20
 		// matches 배열의 데이터가 최대 100개이지만 100개보다 작은 사람도 있음. 그 중에서도 챔프 정리에 대한 건 20개까지만 할 것
 		// 즉, matches 배열의 길이가 20보다 작으면 배열 길이만큼 반복하면 되고, 20 이상이면 20으로 고정길이를 가진다.
-		int matchesCnt = matchInfo.getMatches().length < 20 ? matchInfo.getMatches().length : 20;
+		int matchesCnt = matchInfo.getMatches().length < champCount ? matchInfo.getMatches().length : champCount;
 		for(int i = 0; i < matchesCnt; i++) {
 			String gameId = matchInfo.getMatches()[i].getGameId() + "";
 			String urlAddress = "https://kr.api.riotgames.com/lol/match/v4/matches/" + gameId + "?api_key=" + key;
@@ -193,7 +194,7 @@ public class MatchingService {
 				if(matchDvo.getParticipantIdentities()[j].getPlayer().getSummonerName().equals(summonerName)) {
 					int pNum = matchDvo.getParticipantIdentities()[j].getParticipantId();
 					matchDvo.setParticipantId(pNum);
-					System.out.println("참가자 번호 : " + matchDvo.getParticipantId());
+					// System.out.println("참가자 번호 : " + matchDvo.getParticipantId());
 					
 					// 참가자 번호로 ParticipantVO에 접근, most3Champ 안에 있는 champ인지 확인 한다.
 					String champId = matchDvo.getParticipants()[matchDvo.getParticipantId() - 1].getChampionId()+"";
@@ -236,7 +237,7 @@ public class MatchingService {
 		// Recently 100 Games
 		int matchesCnt = matchInfo.getMatches().length;
 		int inValidData = 0;
-		int cnt = matchesCnt <= 20 ? matchesCnt : 20;
+		int cnt = matchesCnt <= champCount ? matchesCnt : champCount;
 		
 		// Champion Count (MAX 20 counts)
 		for(int i = 0; i < cnt; i++) {

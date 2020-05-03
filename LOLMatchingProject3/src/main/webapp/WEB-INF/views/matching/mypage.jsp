@@ -11,21 +11,14 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPageCss.css" />
 <script type="text/javascript">
 	$(function() {	
-		initRateColor($("#tier-rank-winrate"));			
+		initRateColor($("#tier-rank-winrate-solo"));			
+		initRateColor($("#tier-rank-winrate-flex"));			
 		for(var i = 1; i <= 3; i++) {			
-		initRateColor($("#record-winrate"+i));
-			initKdaColor($("#record-kda"+i));
+			initRateColor($("#record-winrate-solo"+i));
+			initRateColor($("#record-winrate-flex"+i));
+			initKdaColor($("#record-kda-solo"+i));
+			initKdaColor($("#record-kda-flex"+i));
 		}
-		/*
-		$("#soloBtn").click(function() {
-			<c:set value="RANKED_SOLO_5x5" var="solorank"></c:set>
-			$("#nav-profile").attr("id", "#nav-home");
-		})
-		$("#flexBtn").click(function() {
-			<c:set value="RANKED_FLEX_SR" var="solorank"></c:set>
-			$("#nav-home").attr("id", "#nav-profile");
-		})
-		*/
 	});
 	
 	function isNumeric(data) {
@@ -82,8 +75,9 @@
 		<div class="tab-content" id="nav-tabContent">
 			<c:set value="RANKED_SOLO_5x5" var="solorank"></c:set>
 			<c:set value="RANKED_FLEX_SR" var="flexrank"></c:set>
+			<c:set value="10" var= "championCount"></c:set>
 			<div class="tab-pane fade show active container" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-				<!-- 리팩토링 필요 -->
+				<!-- 탭 Pane 솔랭 -->
 				<div class="row">
 					<c:set value="${svo.levo.get(solorank).tier }" var="tier"></c:set>
 			  		<div id="card-tier" class="col">
@@ -109,7 +103,7 @@
 							  			</c:if>
 					  				</div>		
 						  			<span>${svo.levo.get(solorank).wins }승 ${svo.levo.get(solorank).losses }패 </span><br />
-						  			<span id="tier-rank-winrate">승률 <fmt:formatNumber value="${svo.levo.get(solorank).winRate }" pattern="#"/>% </span><br />
+						  			<span id="tier-rank-winrate-solo">승률 <fmt:formatNumber value="${svo.levo.get(solorank).winRate }" pattern="#"/>% </span><br />
 					  			</div>
 			  				</div>	  			
 			  			</c:if>	  				
@@ -150,11 +144,11 @@
 			  			<c:if test="${svo.soloGames.matches ne null }">
 			  				<div class="detail-title">
 			  					최근
-				  				<c:if test="${fn:length(matches) lt 20 }">			  				
+				  				<c:if test="${fn:length(matches) lt championCount }">			  				
 				  					${fn:length(matches)}		  				
 				  				</c:if>
-				  				<c:if test="${fn:length(matches) ge 20 }">			  				
-				  					20		  				
+				  				<c:if test="${fn:length(matches) ge championCount }">			  				
+				  					${championCount }		  				
 				  				</c:if>
 				  				게임의 챔피언 TOP 3
 			  				</div>
@@ -170,11 +164,11 @@
 							  				${championList.get(champ_id)[1]}
 						  				</div>
 						  				<div class="champInfo-record">
-						  					<span id="record-winrate${i.count }">
+						  					<span id="record-winrate-solo${i.count }">
 								  				<fmt:formatNumber value="${ (champ_record.totalWin / champ_record.playedCnt) * 100}" pattern="#" />%
 						  					</span>
 							  				(${champ_record.totalWin }승 / ${champ_record.playedCnt - champ_record.totalWin }패)
-							  				<span id="record-kda${i.count }">
+							  				<span id="record-kda-solo${i.count }">
 								  				KDA <fmt:formatNumber value="${ (champ_record.totalKills + champ_record.totalAssists) / champ_record.totalDeaths }" pattern="#.##" />
 							  				</span>
 							  				<br />
@@ -188,10 +182,11 @@
 			  			</c:if>
 			  		</div>
 				</div>
-				<!-- 리팩토링 필요 -->
+				<!-- 탭 Pane 솔랭 끝 -->
 			</div>
 			
 			<!--  <div class="tab-pane fade show active container" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"> -->
+			<!-- 탭 Pane 자랭 -->
 		    <div class="tab-pane fade container" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 		    	<div class="row">
 					<c:set value="${svo.levo.get(flexrank).tier }" var="tier"></c:set>
@@ -218,7 +213,7 @@
 							  			</c:if>
 					  				</div>		
 						  			<span>${svo.levo.get(flexrank).wins }승 ${svo.levo.get(flexrank).losses }패 </span><br />
-						  			<span id="tier-rank-winrate">승률 <fmt:formatNumber value="${svo.levo.get(flexrank).winRate }" pattern="#"/>% </span><br />
+						  			<span id="tier-rank-winrate-flex">승률 <fmt:formatNumber value="${svo.levo.get(flexrank).winRate }" pattern="#"/>% </span><br />
 					  			</div>
 			  				</div>	  			
 			  			</c:if>	  				
@@ -259,11 +254,11 @@
 			  			<c:if test="${svo.flexGames.matches ne null }">
 			  				<div class="detail-title">
 			  					최근
-				  				<c:if test="${fn:length(matches) lt 20 }">			  				
+				  				<c:if test="${fn:length(matches) lt championCount }">			  				
 				  					${fn:length(matches)}		  				
 				  				</c:if>
-				  				<c:if test="${fn:length(matches) ge 20 }">			  				
-				  					20		  				
+				  				<c:if test="${fn:length(matches) ge championCount }">			  				
+				  					${championCount }		  				
 				  				</c:if>
 				  				게임의 챔피언 TOP 3
 			  				</div>
@@ -279,11 +274,11 @@
 							  				${championList.get(champ_id)[1]}
 						  				</div>
 						  				<div class="champInfo-record">
-						  					<span id="record-winrate${i.count }">
+						  					<span id="record-winrate-flex${i.count }">
 								  				<fmt:formatNumber value="${ (champ_record.totalWin / champ_record.playedCnt) * 100}" pattern="#" />%
 						  					</span>
 							  				(${champ_record.totalWin }승 / ${champ_record.playedCnt - champ_record.totalWin }패)
-							  				<span id="record-kda${i.count }">
+							  				<span id="record-kda-flex${i.count }">
 								  				KDA <fmt:formatNumber value="${ (champ_record.totalKills + champ_record.totalAssists) / champ_record.totalDeaths }" pattern="#.##" />
 							  				</span>
 							  				<br />
@@ -298,7 +293,7 @@
 			  		</div>
 				</div>
 		    </div>
-		    
+		    <!-- 탭 Pane 자랭 -->
 		</div>
 	</div>
 </body>
