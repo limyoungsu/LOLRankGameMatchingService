@@ -8,11 +8,9 @@ a {
 	color: #222;	
 }
 
-#card-container {
-	border-top: 1px solid gainsboro;
-	border-bottom: 1px solid gainsboro;
-	width: 650px;
-	margin: 0 auto;
+/* nav bar 설정 */
+nav>#nav-tab>.match-info {
+	width: 50%;
 }
 
 nav>#nav-tab>a {
@@ -21,48 +19,84 @@ nav>#nav-tab>a {
 
 nav>#nav-tab>a:hover {
 	color: brown;
-	border: 1px solid #555;
-}
-
-.match-info {
-	width: 50%;
+	border: 1px solid #444;
 }
 
 #nav-home, #nav-profile{
-	width: 100%;
 	padding: 15px;
 	background-color: #fff;
 }
 
-#card-image {
-	
+
+
+/* Card Container 부분  */
+#card-container {
+	border-top: 1px solid gainsboro;
+	border-bottom: 1px solid gainsboro;
+	width: 650px;
+	margin: 0 auto;
 }
 
-#card-tier {
-	width: 20%;
-}
 
-#card-tier img {
-	width: 100%;
-}
 
-#card-text {
-	background: #fff;
+/* tier 부분  */
+.tier-content {
+	margin: 20px 0;
 	text-align: center;
 }
 
+.tier-content>img {
+	width: 100%;
+}
+
+.tier-content>.tier-rank-title {
+	font-size: 1.3rem;
+	font-weight: bold;
+	color: maroon;
+}
+
+
+
+/* lane 부분 설정 */
 #card-lane {
 	text-align: center;
 }
 
-.lane-img {
-	margin: 17px 0;
+.lane-content {
+	margin: 14px 0;
 }
 
-.detail-champ {
-	margin: 10px 0;
+.lane-content img {
+	width: 60px;
 }
 
-.detail-champ img {
-	width: 66px;
+
+
+/* detail 부분 */
+.detail-title {
+	text-align: center;
+}
+
+.detail-content {
+	margin: 14px 0;
+}
+
+.detail-content>.col-4, .detail-content>.col-8 {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.detail-content-champ img {
+	width: 90%;
+}
+
+.detail-content-champInfo>.champInfo-name {
+	font-weight: bold;
+	margin-bottom: 5px;
+	font-size: 1.25rem;
+}
+
+.detail-content-champInfo>.champInfo-record {
+	font-size: 0.85rem;
+	line-height: 1rem;
 }

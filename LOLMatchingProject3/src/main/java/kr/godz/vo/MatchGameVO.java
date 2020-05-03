@@ -19,4 +19,6 @@ public class MatchGameVO {
 	
 	// Time When Game Started
 	private long timestamp;
+	
+	private MatchDetailVO matchDetailVO;
 }

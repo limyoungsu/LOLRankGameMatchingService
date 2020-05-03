@@ -18,11 +18,15 @@ public class MatchInfoVO {
 	private Map<String, Integer> roleCnt;
 	private List<String> roleCntList;
 	
+	// Champion Records of recently max 20 games
+	private Map<String, ChampionRecordVO> championRecordMap;
+	
 	private int reliability;
 	
 	public MatchInfoVO() {
 		this.matches = new MatchGameVO[50];
 		this.championCnt = new HashMap<String, Integer>();
 		this.roleCnt = new HashMap<String, Integer>();
+		this.championRecordMap = new HashMap<String, ChampionRecordVO>();
 	}
 }

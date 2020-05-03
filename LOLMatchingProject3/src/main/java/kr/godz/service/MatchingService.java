@@ -23,7 +23,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
+import kr.godz.vo.ChampionRecordVO;
 import kr.godz.vo.LeagueEntryVO;
+import kr.godz.vo.MatchDetailVO;
 import kr.godz.vo.MatchInfoVO;
 import kr.godz.vo.SummonerChampionVO;
 import kr.godz.vo.SummonerVO;
@@ -33,6 +35,7 @@ public class MatchingService {
 	
 	final private static Logger logger = LoggerFactory.getLogger(MatchingService.class); 
 	static final String key = "RGAPI-9a9fc5b6-e54b-46a7-9ab4-c6f10f8ee47d";
+	static final String beginTime = "1578596400000";
 	static final String season = "13";			// Current Season
 	static final String soloType = "420";		// Solo Rank Game 5x5 Queue Type
 	static final String flexType = "440";		// Flex Rank Game 5x5 Queue Type
@@ -126,7 +129,7 @@ public class MatchingService {
 		// Solo Rank Match
 		MatchInfoVO matchInfo = new MatchInfoVO();
 		String urlAddress = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/" + svo.getAccountId() + "?queue=" + soloType 
-						+ "&beginTime=1578596400000" + "&api_key=" + key;
+						+ "&beginTime=" + beginTime + "&api_key=" + key;
 		
 		matchInfo = getRecentlyGames(matchInfo, gson, urlAddress);
 		
@@ -135,39 +138,105 @@ public class MatchingService {
 		System.out.println(matchInfo.getRoleCnt());
 		System.out.println("신뢰도" + matchInfo.getReliability());
 		
+		matchInfo = getChampionRecords(svo.getName() ,matchInfo, gson);
 		svo.setSoloGames(matchInfo);
 		
 		
 		
-		
 		// Flex Rank Match
-//		matchInfo = new MatchInfoVO();
-//		urlAddress = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/" + svo.getAccountId() + "?queue=" + flexType 
-//					+ "&beginTime=1578596400000" + "&api_key=" + key;
-//		
-//		matchInfo = getRecentlyGames(matchInfo, gson, urlAddress);
-//		
-//		System.out.println("Data 수 : " + matchInfo.getMatches().length);
-//		System.out.println(matchInfo.getChampionCnt());
-//		System.out.println(matchInfo.getRoleCnt());
-//		System.out.println("신뢰도" + matchInfo.getReliability());
-//		
-//		svo.setFlexGames(matchInfo);
+		matchInfo = new MatchInfoVO();
+		urlAddress = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/" + svo.getAccountId() + "?queue=" + flexType 
+					+ "&beginTime=" + beginTime + "&api_key=" + key;
+		
+		matchInfo = getRecentlyGames(matchInfo, gson, urlAddress);
+		
+		System.out.println("Data 수 : " + matchInfo.getMatches().length);
+		System.out.println(matchInfo.getChampionCnt());
+		System.out.println(matchInfo.getRoleCnt());
+		System.out.println("신뢰도" + matchInfo.getReliability());
+		
+		matchInfo = getChampionRecords(svo.getName() ,matchInfo, gson);
+		svo.setFlexGames(matchInfo);
 		
 		logger.info("getSummonerMatchGames return : " + svo);
 		return svo;
 	}
 	
 	
+	public MatchInfoVO getChampionRecords(String summonerName, MatchInfoVO matchInfo, Gson gson) throws JsonSyntaxException, JsonIOException, MalformedURLException, IOException {
+		logger.info("getChampionRecords call");
+		
+		ChampionRecordVO crMap = null;
+		
+		// When Most 3 Champion < 3, array length is size od list, otherwise array length is 3
+		int mostChampCnt = matchInfo.getChampionCntList().size() < 3 ? matchInfo.getChampionCntList().size() : 3; 
+		List<String> most3champ = new ArrayList<String>();
+		
+		// Initialize
+		for(int i = 0; i < mostChampCnt; i++) {
+			most3champ.add(matchInfo.getChampionCntList().get(i));
+			matchInfo.getChampionRecordMap().put(most3champ.get(i), new ChampionRecordVO());
+		}
+		
+		// When Matches.length < 20, repeat count is length, otherwise repeat count is 20
+		// matches 배열의 데이터가 최대 100개이지만 100개보다 작은 사람도 있음. 그 중에서도 챔프 정리에 대한 건 20개까지만 할 것
+		// 즉, matches 배열의 길이가 20보다 작으면 배열 길이만큼 반복하면 되고, 20 이상이면 20으로 고정길이를 가진다.
+		int matchesCnt = matchInfo.getMatches().length < 20 ? matchInfo.getMatches().length : 20;
+		for(int i = 0; i < matchesCnt; i++) {
+			String gameId = matchInfo.getMatches()[i].getGameId() + "";
+			String urlAddress = "https://kr.api.riotgames.com/lol/match/v4/matches/" + gameId + "?api_key=" + key;
+			MatchDetailVO matchDvo = gson.fromJson(new InputStreamReader(new URL(urlAddress).openStream()), MatchDetailVO.class);
+			
+			// 한 matchId에 대해 참가자 10명에 대해
+			for(int j = 0; j < matchDvo.getParticipantIdentities().length; j++) {
+				// 본인 이름과 동일한 참가자의 번호(participantId) 찾기
+				if(matchDvo.getParticipantIdentities()[j].getPlayer().getSummonerName().equals(summonerName)) {
+					int pNum = matchDvo.getParticipantIdentities()[j].getParticipantId();
+					matchDvo.setParticipantId(pNum);
+					System.out.println("참가자 번호 : " + matchDvo.getParticipantId());
+					
+					// 참가자 번호로 ParticipantVO에 접근, most3Champ 안에 있는 champ인지 확인 한다.
+					String champId = matchDvo.getParticipants()[matchDvo.getParticipantId() - 1].getChampionId()+"";
+					crMap = matchInfo.getChampionRecordMap().get(champId);
+					if(most3champ.contains(champId)) {
+						// 있으면 StatVO 정보를  MatchInfo의 championRecordMap으로 가져간다.
+						crMap.setPlayedCnt(crMap.getPlayedCnt() + 1);
+						crMap.setTotalGameDuration(crMap.getTotalGameDuration() + matchDvo.getGameDuration());
+						crMap.setTotalKills(crMap.getTotalKills() + matchDvo.getParticipants()[pNum - 1].getStats().getKills());
+						crMap.setTotalDeaths(crMap.getTotalDeaths() + matchDvo.getParticipants()[pNum - 1].getStats().getDeaths());
+						crMap.setTotalAssists(crMap.getTotalAssists() + matchDvo.getParticipants()[pNum - 1].getStats().getAssists());
+						
+						crMap.setTotalGold(crMap.getTotalGold() + matchDvo.getParticipants()[pNum - 1].getStats().getGoldEarned());
+						
+						int winCnt = matchDvo.getParticipants()[pNum - 1].getStats().isWin() ? 1 : 0;
+						crMap.setTotalWin(crMap.getTotalWin() + winCnt);
+						crMap.setTotalMinionsKilled(crMap.getTotalMinionsKilled() + matchDvo.getParticipants()[pNum - 1].getStats().getTotalMinionsKilled());
+						crMap.setTotalDamageDealt(crMap.getTotalDamageDealt() + matchDvo.getParticipants()[pNum - 1].getStats().getTotalDamageDealtToChampions());
+						
+						System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& " + champId + " &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+						System.out.println(crMap);
+					} else {
+						// 없으면 break, 다음 matchId로 다시 접근
+						break;
+					}
+				}
+			}
+		}
+		
+		logger.info("getChampionRecords return : " + crMap);
+		return matchInfo;
+	}
+
+
 	public MatchInfoVO getRecentlyGames(MatchInfoVO matchInfo, Gson gson, String urlAddress) throws JsonSyntaxException, JsonIOException, MalformedURLException, IOException {
 		logger.info("getRecentlyGames call : " + matchInfo + ", " + urlAddress);
 		
 		matchInfo.setMatches(gson.fromJson(new InputStreamReader(new URL(urlAddress).openStream()), MatchInfoVO.class).getMatches());
 		
 		// Recently 100 Games
-		int totalDataCnt = matchInfo.getMatches().length;
+		int matchesCnt = matchInfo.getMatches().length;
 		int inValidData = 0;
-		int cnt = totalDataCnt <= 20 ? totalDataCnt : 20;
+		int cnt = matchesCnt <= 20 ? matchesCnt : 20;
 		
 		// Champion Count (MAX 20 counts)
 		for(int i = 0; i < cnt; i++) {
@@ -179,7 +248,7 @@ public class MatchingService {
 		}
 		
 		// Lane Count (MAX 100 counts)
-		for(int i = 0; i < totalDataCnt; i++) {			
+		for(int i = 0; i < matchesCnt; i++) {			
 			// Lane Count
 			String lane = matchInfo.getMatches()[i].getLane();
 			switch (lane) {
@@ -208,7 +277,7 @@ public class MatchingService {
 		}
 		
 		// Reliability
-		matchInfo.setReliability( (int) (((double)(totalDataCnt - inValidData) / (totalDataCnt)) * 100) );
+		matchInfo.setReliability( (int) (((double)(matchesCnt - inValidData) / (matchesCnt)) * 100) );
 		
 		// Sort keySet of Map Data
 		List<String> list = new ArrayList<String>(matchInfo.getChampionCnt().keySet());
@@ -220,7 +289,7 @@ public class MatchingService {
 			}
 		});
 		
-		System.out.println(list);
+		System.out.println("챔프 빈도 : " + list);
 		matchInfo.setChampionCntList(list);
 		
 		// Sort keySet of Map Data
@@ -233,7 +302,7 @@ public class MatchingService {
 			}
 		});
 		
-		System.out.println(list2);
+		System.out.println("라인 빈도 : " + list2);
 		matchInfo.setRoleCntList(list2);
 		
 		logger.info("getRecentlyGames return : " + matchInfo);

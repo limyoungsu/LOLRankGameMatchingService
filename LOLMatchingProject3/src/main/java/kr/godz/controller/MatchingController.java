@@ -24,6 +24,14 @@ public class MatchingController {
 	MatchingService matchingService;
 	
 	static Map<String, String[]> championList = new HashMap<>();
+	@SuppressWarnings("serial")
+	static Map<String, String> laneInfo = new HashMap<String, String>() {{
+											put("TOP", "탑");
+											put("MID", "미드");
+											put("JUNGLE", "정글");
+											put("SUPPORT", "서포터");
+											put("BOT", "원딜");
+										}};
 	final static private Logger logger = LoggerFactory.getLogger(MatchingController.class);
 	
 	@RequestMapping(value = "/matching/mypage")
@@ -36,10 +44,8 @@ public class MatchingController {
 		SummonerVO vo = matchingService.getSummonerInfo(summonerName);
 		
 		model.addAttribute("svo", vo);
-		model.addAttribute("soloGames", vo.getSoloGames());
-		model.addAttribute("flexGames", vo.getFlexGames());
-		model.addAttribute("scvo", vo.getScvo());
 		model.addAttribute("championList", championList);
+		model.addAttribute("laneInfo", laneInfo);
 		
 		logger.info("matchingHome return : " + vo);
 		return "/matching/mypage";
