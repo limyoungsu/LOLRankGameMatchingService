@@ -13,6 +13,21 @@
 	$(function() {
 	
 	});
+	 function goPage(url, nickName, summonerName) {
+		// name이 paging인 태그
+		var f = document.paging;
+
+		// form 태그의 하위 태그 값 매개 변수로 대입
+		f.nickName.value = nickName;
+		f.summonerName.value = summonerName;
+		
+		// input태그의 값들을 전송하는 주소
+		f.action = url
+		
+		// 전송 방식 : post
+		f.method = "post"
+		f.submit();
+	};
 </script>
 <sitemesh:write property='head' />
 </head>
@@ -37,11 +52,21 @@
 	</div>
 	<div id="top2-container" class="container-box">
 		<div id="top2-content" class="content-box row">
+			<form name="paging" id="paging">
+		    	<input type="hidden" name="nickName" value="${nickName }"/>
+		    	<input type="hidden" name="summonerName" value="${summonerName }"/>
+		    </form>
 			<div class="col-sm">
-				<a href="${pageContext.request.contextPath }/matching/solorank">솔로랭크</a>
+				<!--  <a href="${pageContext.request.contextPath }/board/solorank">솔로랭크</a> -->
+				<!-- 
+					SITEMESH를 사용했기 때문인지 값이 제대로 들어오지 않음, 실제로 matching/mypage에서 f12로 보면 form의 value에 data 들어가 있음. 
+					링크를 분리해야하나? 
+				-->
+				<a href="javascript:goPage('${pageContext.request.contextPath }/matching/board/solorank', '${nickName }', '${summonerName }');">솔로랭크</a>
 			</div>
 			<div class="col-sm">
-				<a href="${pageContext.request.contextPath }/matching/freerank">자유랭크</a>
+				<!-- <a href="${pageContext.request.contextPath }/matching/board/flexrank">자유랭크</a> -->
+				<a href="javascript:goPage('${pageContext.request.contextPath }/matching/board/flexrank', '${nickName }', '${summonerName }');">자유랭크</a>
 			</div>
 			<div class="col-sm">
 			

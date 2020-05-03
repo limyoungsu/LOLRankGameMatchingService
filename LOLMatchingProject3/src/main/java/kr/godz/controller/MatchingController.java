@@ -35,19 +35,46 @@ public class MatchingController {
 	final static private Logger logger = LoggerFactory.getLogger(MatchingController.class);
 	
 	@RequestMapping(value = "/matching/mypage")
-	public String matchingHome(Model model, @RequestParam(value="name") String summonerName) {
-		logger.info("matchingHome call : " + summonerName);
+	public String matchingHome(Model model, @RequestParam(value="name") String summonerName, 
+								@RequestParam(value = "nickName") String nickName) {
+		logger.info("matchingHome call : " + summonerName + ", " + nickName);
 		
 		// 주기능 페이지 home에서 챔피언 리스트를 초기화
 		matchingService.InitChampionList(championList);
 		// 소환사 이름을 통한 소환사 정보를 가져와서 jsp로 넘김
 		SummonerVO vo = matchingService.getSummonerInfo(summonerName);
 		
+		model.addAttribute("nickName", nickName);
 		model.addAttribute("svo", vo);
+		model.addAttribute("summonerName", vo.getName());
 		model.addAttribute("championList", championList);
 		model.addAttribute("laneInfo", laneInfo);
 		
 		logger.info("matchingHome return : " + vo);
 		return "/matching/mypage";
+	}
+	
+	@RequestMapping(value = "/matching/board/solorank")
+	public String matchingSolo(Model model, @RequestParam(value = "nickName") String nickName, 
+								@RequestParam(value = "summonerName") String summonerName) {
+		logger.info("matchingSolo call : " + nickName + ", " + summonerName);
+		
+		model.addAttribute("nickName", nickName);
+		model.addAttribute("summonerName", summonerName);
+		
+		logger.info("matchingSolo return");
+		return "/matching/matching";
+	}
+	
+	@RequestMapping(value = "/matching/board/flexrank")
+	public String matchingFlex(Model model, @RequestParam(value = "nickName") String nickName, 
+								@RequestParam(value = "summonerName") String summonerName) {
+		logger.info("matchingFlex call : " + nickName + ", " + summonerName);
+		
+		model.addAttribute("nickName", nickName);
+		model.addAttribute("summonerName", summonerName);
+		
+		logger.info("matchingFlex return");
+		return "/matching/matching";
 	}
 }
