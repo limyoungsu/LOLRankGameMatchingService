@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.internal.LinkedTreeMap;
@@ -23,24 +24,34 @@ import kr.godz.vo.MemberVO;
 public class MemberService {
 
 	@Autowired
-	MemberDAO memberDAO;
+	private MemberDAO memberDAO;
+	
 	@Autowired
 	private JavaMailSender mailSender;
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	private static final Logger logger = LoggerFactory.getLogger(MemberService.class);
 	
 	// Join의 결과 ; DB에 저장
 	public void insert(MemberVO vo) {
+		logger.info("insert call : " + vo);
+
 		// 이메일 인증 키 생성 ; size 만큼의 key생성
 		String emailToken = generateToken(18);
 		vo.setEmailToken(emailToken);
-		logger.info("insert call : " + vo);
 		
+		// PW를 Crypt Encoder로 암호화해서 DB에 저장
+		String encPassword = bCryptPasswordEncoder.encode(vo.getPassword());
+		vo.setPassword(encPassword);
+
 		// lol_member table에 사용자 정보 저장
 		memberDAO.insert(vo);
 		
 		// lol_member_role table에 권한 정보 저장 : 기본값은 USER
 		memberDAO.insertRole(vo.getUserId());
+		
 		sendEmail(vo);
 	}
 	
@@ -112,6 +123,7 @@ public class MemberService {
         }
     }
  
+	
     private MimeMessagePreparator getMessagePreparator(final MemberVO memberVO) {
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
  
@@ -130,6 +142,7 @@ public class MemberService {
         return preparator;
     }
 
+    
 	public void updateUseType(String userId, String emailToken) {
 		// userId가 가진 emailToken과 쿼리스트링 emailToken이 맞으면 Update
 		// 1. userId로 VO 찾아온다

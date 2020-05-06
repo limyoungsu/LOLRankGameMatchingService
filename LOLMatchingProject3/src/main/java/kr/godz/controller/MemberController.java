@@ -140,7 +140,7 @@ public class MemberController {
 		return "member/login";
 	}
 	
-	@RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
+	@RequestMapping(value = "/member/login/accessDenied", method = RequestMethod.GET)
     public String accessDeniedPage(Model model) {
         model.addAttribute("userId", getPrincipal());
         return "accessDenied";
@@ -157,4 +157,6 @@ public class MemberController {
         }
         return userName;
     }
+	
+	
 }

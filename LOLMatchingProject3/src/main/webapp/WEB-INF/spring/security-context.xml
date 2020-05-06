@@ -30,12 +30,16 @@
 	<beans:bean id="loginSuccessHandler" class="kr.godz.auth.core.GodzLoginSuccessHandler"></beans:bean>
 	<beans:bean id="loginFailureHandler" class="kr.godz.auth.core.GodzLoginFailureHandler"></beans:bean>
     
+    <!-- BCrypt 암호화 bean  -->
+	<beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />  
+    
 	<beans:bean id="encoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder"/>
  
     
     <!--  provider  -->
     <authentication-manager>
         <authentication-provider>
+        	<password-encoder hash="bcrypt" />
             <jdbc-user-service 
             	data-source-ref="dataSource"
 				users-by-username-query= "select userId, password, usetype from lol_member where userId=?"
