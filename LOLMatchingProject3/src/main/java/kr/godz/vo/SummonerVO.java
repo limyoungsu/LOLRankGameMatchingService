@@ -13,6 +13,10 @@ public class SummonerVO {
 	private String accountId;
 	private String id;
 	private long summonerLevel;
+	private int profileIconId;
+	
+	// 구해야하는 값 (timestamp to String Date)
+	private String lastGameTime;
 	
 	// 2. Most Used Champion Information
 	SummonerChampionVO scvo;

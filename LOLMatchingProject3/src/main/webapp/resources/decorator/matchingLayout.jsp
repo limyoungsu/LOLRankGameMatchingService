@@ -35,7 +35,7 @@
 	<div id="top-container" class="container-box">
 		<div id="top-content" class="content-box row">
 			<div class="col-sm">
-				LOGO
+				<a href="${pageContext.request.contextPath }/matching/mypage?name=${summonerName}&nickName=${nickName}">LOGO</a>
 			</div>
 			<div class="col-sm">
 				<div class="dropdown">
@@ -52,21 +52,23 @@
 	</div>
 	<div id="top2-container" class="container-box">
 		<div id="top2-content" class="content-box row">
+			<!--  
 			<form name="paging" id="paging">
 		    	<input type="hidden" name="nickName" value="${nickName }"/>
 		    	<input type="hidden" name="summonerName" value="${summonerName }"/>
 		    </form>
+		    -->
 			<div class="col-sm">
 				<!--  <a href="${pageContext.request.contextPath }/board/solorank">솔로랭크</a> -->
 				<!-- 
 					SITEMESH를 사용했기 때문인지 값이 제대로 들어오지 않음, 실제로 matching/mypage에서 f12로 보면 form의 value에 data 들어가 있음. 
 					링크를 분리해야하나? 
 				-->
-				<a href="javascript:goPage('${pageContext.request.contextPath }/matching/board/solorank', '${nickName }', '${summonerName }');">솔로랭크</a>
+				<a href="${pageContext.request.contextPath }/matching/board/solorank?nickName=${nickName }&summonerName=${summonerName }">솔로랭크</a>
 			</div>
 			<div class="col-sm">
 				<!-- <a href="${pageContext.request.contextPath }/matching/board/flexrank">자유랭크</a> -->
-				<a href="javascript:goPage('${pageContext.request.contextPath }/matching/board/flexrank', '${nickName }', '${summonerName }');">자유랭크</a>
+				<a href="${pageContext.request.contextPath }/matching/board/flexrank?nickName=${nickName }&summonerName=${summonerName }">자유랭크</a>
 			</div>
 			<div class="col-sm">
 			

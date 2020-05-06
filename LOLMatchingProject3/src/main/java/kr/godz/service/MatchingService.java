@@ -48,6 +48,9 @@ public class MatchingService {
 		// 소환사명에는 공백이 포함될 수 있기 때문에 URL로 사용하려면 인코딩
 		summonerName = URLEncoder.encode(summonerName);
 		logger.info("getSummonerInfo call : " + summonerName);
+		
+		long start = System.currentTimeMillis();
+		
 		SummonerVO svo = new SummonerVO();
 		
 		Gson gson = new Gson();
@@ -70,6 +73,10 @@ public class MatchingService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		long end = System.currentTimeMillis();
+
+		System.out.println( (double)(end - start) / 1000 + " 초");
 		
 		logger.info("getSummonerInfo return : " + svo);
 		return svo;
@@ -127,6 +134,8 @@ public class MatchingService {
 	public SummonerVO getSummonerMatchGames(SummonerVO svo, Gson gson) throws JsonSyntaxException, JsonIOException, MalformedURLException, IOException {
 		logger.info("getSummonerMatchGames call : " + svo);
 
+		long lastGameTime = 0L;
+		
 		// Solo Rank Match
 		MatchInfoVO matchInfo = new MatchInfoVO();
 		String urlAddress = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/" + svo.getAccountId() + "?queue=" + soloType 
@@ -140,8 +149,8 @@ public class MatchingService {
 		System.out.println("신뢰도" + matchInfo.getReliability());
 		
 		matchInfo = getChampionRecords(svo.getName() ,matchInfo, gson);
+		lastGameTime = matchInfo.getMatches()[0].getTimestamp();
 		svo.setSoloGames(matchInfo);
-		
 		
 		
 		// Flex Rank Match
@@ -157,7 +166,10 @@ public class MatchingService {
 		System.out.println("신뢰도" + matchInfo.getReliability());
 		
 		matchInfo = getChampionRecords(svo.getName() ,matchInfo, gson);
+		lastGameTime = lastGameTime > matchInfo.getMatches()[0].getTimestamp() ? lastGameTime : matchInfo.getMatches()[0].getTimestamp();
 		svo.setFlexGames(matchInfo);
+		
+		svo.setLastGameTime(timestampToDate(lastGameTime));
 		
 		logger.info("getSummonerMatchGames return : " + svo);
 		return svo;

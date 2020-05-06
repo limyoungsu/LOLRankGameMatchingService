@@ -71,7 +71,6 @@ html, body {
 }
 
 #body-container {
-	padding-bottom: 25px;
 	background-color: gainsboro;
 	height: inherit;
 }

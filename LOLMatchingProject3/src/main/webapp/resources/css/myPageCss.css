@@ -1,6 +1,4 @@
 h3 {
-	text-align: center;
-	padding-top: 50px;
 	color: #222;
 }
 
@@ -28,13 +26,40 @@ nav>#nav-tab>a:hover {
 }
 
 
+/* Hader 부분 */
+#header-container {
+	border-top: 1px solid gainsboro;
+	width: 650px;
+	margin: 0 auto;
+}
+
+.header-title {
+	margin: 14px auto;
+}
+
+.header-img {
+	position: relative;
+	background-color: #fff; 
+	padding: 5px;
+}
+
+.header-img img {
+	width: 100%;
+}
+
+#title-level {
+	background-color: #fff;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
 
 /* Card Container 부분  */
 #card-container {
-	border-top: 1px solid gainsboro;
 	border-bottom: 1px solid gainsboro;
 	width: 650px;
-	margin: 0 auto;
+	margin: 15px auto;
 }
 
 

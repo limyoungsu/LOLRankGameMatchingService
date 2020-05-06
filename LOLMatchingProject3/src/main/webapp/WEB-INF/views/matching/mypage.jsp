@@ -49,6 +49,9 @@
 	}
 	
 	function initKdaColor(id) {
+		if(id.html() == undefined) {
+			return;
+		}
 		var data = id.html().trim();
 		var kda = data.substr(3);
 		if(kda >= 3 && kda < 3.5) {
@@ -61,7 +64,21 @@
 </script>
 </head>
 <body>
-	<h3>${svo.name } Lv.${svo.summonerLevel }</h3>
+	<div id="header-container">
+		<div class="header-title row">		
+			<div class="header-img col-2">
+				<img src="http://ddragon.leagueoflegends.com/cdn/10.9.1/img/profileicon/${svo.profileIconId }.png" alt="ProfileIcon" />
+				<div id="title-level">
+					${svo.summonerLevel }
+				</div>
+			</div>
+			<div class="col-8">
+				<h3>${svo.name }</h3>
+				마지막 랭크 게임 시간 : ${svo.lastGameTime }
+			</div>
+			
+		</div>
+	</div>
 	<div id="card-container">
 		<img src="http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championList.get(svo.scvo.championId)[0] }_0.jpg" class="card-img-top" alt="...">
 		<nav>
@@ -153,31 +170,33 @@
 				  				게임의 챔피언 TOP 3
 			  				</div>
 							<c:forEach var="champ_id" items="${svo.soloGames.championCntList }" varStatus="i" begin="0" end="2">
-				  				<div class="row detail-content">
-									<div class="detail-content-champ col-4">
-										<c:set value="${championList.get(champ_id)[0]}" var="champName"></c:set>
-							  			<img src="http://ddragon.leagueoflegends.com/cdn/10.9.1/img/champion/${champName }.png" alt="MOST_CHAMPION" />
-									</div>
-						  			<div class="detail-content-champInfo col-8">
-						  				<c:set value="${svo.soloGames.championRecordMap.get(champ_id) }" var="champ_record"></c:set>
-						  				<div class="champInfo-name">						  				
-							  				${championList.get(champ_id)[1]}
-						  				</div>
-						  				<div class="champInfo-record">
-						  					<span id="record-winrate-solo${i.count }">
-								  				<fmt:formatNumber value="${ (champ_record.totalWin / champ_record.playedCnt) * 100}" pattern="#" />%
-						  					</span>
-							  				(${champ_record.totalWin }승 / ${champ_record.playedCnt - champ_record.totalWin }패)
-							  				<span id="record-kda-solo${i.count }">
-								  				KDA <fmt:formatNumber value="${ (champ_record.totalKills + champ_record.totalAssists) / champ_record.totalDeaths }" pattern="#.##" />
-							  				</span>
-							  				<br />
-							  				평균 딜량 <fmt:formatNumber value="${champ_record.totalDamageDealt / champ_record.playedCnt }" pattern="#" />  
-							  				<br />
-							  				평균 게임 시간 <fmt:formatNumber value="${(champ_record.totalGameDuration / champ_record.playedCnt) / 60 }" pattern="#" /> 분대
-						  				</div>
-						  			</div>
-				  				</div>
+								<c:if test="${champ_id ne null }">								
+					  				<div class="row detail-content">
+										<div class="detail-content-champ col-4">
+											<c:set value="${championList.get(champ_id)[0]}" var="champName"></c:set>
+								  			<img src="http://ddragon.leagueoflegends.com/cdn/10.9.1/img/champion/${champName }.png" alt="MOST_CHAMPION" />
+										</div>
+							  			<div class="detail-content-champInfo col-8">
+							  				<c:set value="${svo.soloGames.championRecordMap.get(champ_id) }" var="champ_record"></c:set>
+							  				<div class="champInfo-name">						  				
+								  				${championList.get(champ_id)[1]}
+							  				</div>
+							  				<div class="champInfo-record">
+							  					<span id="record-winrate-solo${i.count }">
+									  				<fmt:formatNumber value="${ (champ_record.totalWin / champ_record.playedCnt) * 100}" pattern="#" />%
+							  					</span>
+								  				(${champ_record.totalWin }승 / ${champ_record.playedCnt - champ_record.totalWin }패)
+								  				<span id="record-kda-solo${i.count }">
+									  				KDA <fmt:formatNumber value="${ (champ_record.totalKills + champ_record.totalAssists) / champ_record.totalDeaths }" pattern="#.##" />
+								  				</span>
+								  				<br />
+								  				평균 딜량 <fmt:formatNumber value="${champ_record.totalDamageDealt / champ_record.playedCnt }" pattern="#" />  
+								  				<br />
+								  				평균 게임 시간 <fmt:formatNumber value="${(champ_record.totalGameDuration / champ_record.playedCnt) / 60 }" pattern="#" /> 분대
+							  				</div>
+							  			</div>
+					  				</div>
+								</c:if>
 							</c:forEach>
 			  			</c:if>
 			  		</div>
@@ -263,31 +282,33 @@
 				  				게임의 챔피언 TOP 3
 			  				</div>
 							<c:forEach var="champ_id" items="${svo.flexGames.championCntList }" varStatus="i" begin="0" end="2">
-				  				<div class="row detail-content">
-									<div class="detail-content-champ col-4">
-										<c:set value="${championList.get(champ_id)[0]}" var="champName"></c:set>
-							  			<img src="http://ddragon.leagueoflegends.com/cdn/10.9.1/img/champion/${champName }.png" alt="MOST_CHAMPION" />
-									</div>
-						  			<div class="detail-content-champInfo col-8">
-						  				<c:set value="${svo.flexGames.championRecordMap.get(champ_id) }" var="champ_record"></c:set>
-						  				<div class="champInfo-name">						  				
-							  				${championList.get(champ_id)[1]}
-						  				</div>
-						  				<div class="champInfo-record">
-						  					<span id="record-winrate-flex${i.count }">
-								  				<fmt:formatNumber value="${ (champ_record.totalWin / champ_record.playedCnt) * 100}" pattern="#" />%
-						  					</span>
-							  				(${champ_record.totalWin }승 / ${champ_record.playedCnt - champ_record.totalWin }패)
-							  				<span id="record-kda-flex${i.count }">
-								  				KDA <fmt:formatNumber value="${ (champ_record.totalKills + champ_record.totalAssists) / champ_record.totalDeaths }" pattern="#.##" />
-							  				</span>
-							  				<br />
-							  				평균 딜량 <fmt:formatNumber value="${champ_record.totalDamageDealt / champ_record.playedCnt }" pattern="#" />  
-							  				<br />
-							  				평균 게임 시간 <fmt:formatNumber value="${(champ_record.totalGameDuration / champ_record.playedCnt) / 60 }" pattern="#" /> 분대
-						  				</div>
-						  			</div>
-				  				</div>
+								<c:if test="${champ_id ne null }">
+					  				<div class="row detail-content">
+										<div class="detail-content-champ col-4">
+											<c:set value="${championList.get(champ_id)[0]}" var="champName"></c:set>
+								  			<img src="http://ddragon.leagueoflegends.com/cdn/10.9.1/img/champion/${champName }.png" alt="MOST_CHAMPION" />
+										</div>
+							  			<div class="detail-content-champInfo col-8">
+							  				<c:set value="${svo.flexGames.championRecordMap.get(champ_id) }" var="champ_record"></c:set>
+							  				<div class="champInfo-name">						  				
+								  				${championList.get(champ_id)[1]}
+							  				</div>
+							  				<div class="champInfo-record">
+							  					<span id="record-winrate-flex${i.count }">
+									  				<fmt:formatNumber value="${ (champ_record.totalWin / champ_record.playedCnt) * 100}" pattern="#" />%
+							  					</span>
+								  				(${champ_record.totalWin }승 / ${champ_record.playedCnt - champ_record.totalWin }패)
+								  				<span id="record-kda-flex${i.count }">
+									  				KDA <fmt:formatNumber value="${ (champ_record.totalKills + champ_record.totalAssists) / champ_record.totalDeaths }" pattern="#.##" />
+								  				</span>
+								  				<br />
+								  				평균 딜량 <fmt:formatNumber value="${champ_record.totalDamageDealt / champ_record.playedCnt }" pattern="#" />  
+								  				<br />
+								  				평균 게임 시간 <fmt:formatNumber value="${(champ_record.totalGameDuration / champ_record.playedCnt) / 60 }" pattern="#" /> 분대
+							  				</div>
+							  			</div>
+					  				</div>
+								</c:if>			
 							</c:forEach>
 			  			</c:if>
 			  		</div>
