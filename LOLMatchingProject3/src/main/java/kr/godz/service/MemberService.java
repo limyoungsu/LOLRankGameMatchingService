@@ -1,5 +1,8 @@
 package kr.godz.service;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.Random;
 
 import javax.mail.Message;
@@ -15,6 +18,9 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.internal.LinkedTreeMap;
 
 import kr.godz.dao.MemberDAO;
@@ -108,8 +114,31 @@ public class MemberService {
 
 	// 3. 소환사명 중복 검사
 	public String summonerNameCheck(String summonerName) {
+		logger.info("summonerNameCheck call : " + summonerName);
 		MemberVO vo = memberDAO.selectBySummonerName(summonerName);
-		return vo == null ? "0" : "1";
+		String summonerId = "";
+		if(vo != null) {
+			// 가입된 소환사명
+			return "1";
+		} else {
+			// 가입은 안되어있으나 RIOT에 등록됐는지 확인
+			Gson gson = new Gson();
+			String key = "RGAPI-9a9fc5b6-e54b-46a7-9ab4-c6f10f8ee47d";
+			String urlAddress = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + summonerName + "?api_key=" + key;
+			try {
+				summonerId = gson.fromJson(new InputStreamReader(new URL(urlAddress).openStream()), LinkedTreeMap.class).get("id").toString();
+				System.out.println(summonerId + " &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+			} catch (JsonSyntaxException | JsonIOException | IOException e) {
+				e.printStackTrace();
+			}
+			if(summonerId.equals("")) {
+				// RIOT에 존재하지 않는 소환사명
+				return "2";
+			} else {
+				// 가능한 소환사명
+				return "0";
+			}
+		}
 	}
 	
 	

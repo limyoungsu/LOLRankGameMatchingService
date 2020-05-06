@@ -102,7 +102,7 @@
 		// 별명은 4자리~12자리로 구성
 		
 		
-		// 소환사  이름 반드시 입력
+		// 소환사 이름 반드시 입력
 		var data = $("#summonerName").val();
 		if(!data || data.trim().length==0){
 			alert('소환사 이름은 반드시 입력해야 합니다.');
@@ -120,8 +120,7 @@
 		var currYear = today.getFullYear();
 		var currMonth = today.getMonth() + 1;
 		var currDate = today.getDate();
-		// alert(year+"/"+month+"/"+dayOfMonth);
-		// alert(currYear+"/"+currMonth+"/"+currDate);
+
 		if(year > currYear) {
 			alert("생년월일이 유효하지 않습니다.");
 			$("#birth").val(currYear+"/"+currMonth+"/"+currDate);
@@ -160,82 +159,58 @@
 		return true;
 	}
 	
-	// 나중에 이거 3개 하나로 합치자
- 	// 아이디 중복 확인
-	function idCheck(){
-		var value = $("#userId").val();
-		if(value.length > 15){
-			// form에 입력한 userId 값을 value에 넣고 idCheck으로 GET방식으로 보내 반환값 얻어옴 
-			$.ajax('idCheck',{
-				type:'GET',
-				data:{'userId': value},
-				dataType:'json',
-				error : function(){
-					alert('실패!!!');
+	// 각 유효성 확인
+	function idCheck(value, minLen, url) {
+		var selector = url + "Validation";
+		if(value.length > minLen) {
+			$.ajax(url, {
+				type : 'GET',
+				data : {'id' : value},
+				dataType : 'json',
+				error : function() {
+					console.log("Fail");
 				},
-				success:function(data){
+				success : function(data) {
 					// 반환값이 1이면 성공, 아니면 실패
 					if(data == 1)
-						$("#idValidation").css('color','crimson').html("사용할 수 없습니다.");
+						$('#' + selector).css('color','crimson').html("사용할 수 없습니다.");
 					else 
-						$("#idValidation").css('color','springgreen').html("사용할 수 있습니다.");
+						$('#' + selector).css('color','springgreen').html("사용할 수 있습니다.");
 				}
 			});
 		} else {
-			$("#idValidation").html("");
+			$('#' + selector).html("");
+		}
+	}
+ 	
+	function summonerNameCheck() {
+		var value = $("#summonerName").val();
+		if(value.length > 0) {
+			$.ajax("summonerNameCheck", {
+				type : 'GET',
+				data : {'summonerName' : value},
+				dataType: 'json',
+				error : function() {
+					console.log("Fail");
+				},
+				success : function(res) {
+					if(res == 1) {
+						alert("이미 가입된 소환사명입니다.");
+						$('#summonerNameCheckValidation').css('color','crimson').html("사용할 수 없습니다.");
+					} 
+					else if(res == 2) {
+						alert("RIOT에 존재하지 않는 소환사명입니다.")
+						$('#summonerNameCheckValidation').css('color','crimson').html("사용할 수 없습니다.");
+					}					
+					else {
+						alert("사용 가능한 소환사명입니다.")
+						$('#summonerNameCheckValidation').css('color','springgreen').html("사용할 수 있습니다.");
+					} 						
+				}
+			});
 		}
 	}
 	
- 	// 별명 중복확인
- 	function nickNameCheck(){
-		var value = $("#nickName").val();
-		if(value.length > 2){
-			// form에 입력한 userId 값을 value에 넣고 idCheck으로 GET방식으로 보내 반환값 얻어옴 
-			$.ajax('nickNameCheck',{
-				type:'GET',
-				data:{'nickName': value},
-				dataType:'json',
-				error : function(){
-					alert('실패!!!');
-				},
-				success:function(data){
-					// 반환값이 1이면 성공, 아니면 실패
-					if(data == 1)
-						$("#nickNameValidation").css('color','crimson').html("사용할 수 없습니다.");
-					else 
-						$("#nickNameValidation").css('color','springgreen').html("사용할 수 있습니다.");
-				}
-			});
-		} else {
-			$("#nickNameValidation").html("");
-		}
- 	}
- 	
- 	// 소환사명 중복확인
- 	function summonerNameCheck(){
-		var value = $("#summonerName").val();
-		if(value.length > 2){
-			// form에 입력한 userId 값을 value에 넣고 idCheck으로 GET방식으로 보내 반환값 얻어옴 
-			$.ajax('summonerNameCheck',{
-				type:'GET',
-				data:{'summonerName': value},
-				dataType:'json',
-				error : function(){
-					alert('실패!!!');
-				},
-				success:function(data){
-					// 반환값이 1이면 성공, 아니면 실패
-					if(data == 1)
-						$("#summonerNameValidation").css('color','crimson').html("사용할 수 없습니다.");
-					else 
-						$("#summonerNameValidation").css('color','springgreen').html("사용할 수 있습니다.");
-				}
-			});
-		} else {
-			$("#summonerNameValidation").html("");
-		}
-	}
- 	
 	// email 주소 format
 	function validateEmail(email) {
 		var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
@@ -258,51 +233,52 @@
 			<div class="input-container">
 				<div class="input-name">계정 이름</div>
 				<div>
-					<input type="text" name="userId" id="userId" placeholder="계정 이름  : 메일주소" onkeyup="idCheck();"/> 			
+					<input type="text" name="userId" id="userId" placeholder="계정 이름  : 메일주소" maxlength="30" onkeyup="idCheck(this.value, '10', 'idCheck');"/> 			
 				</div>
 				<div class="validation-container">
-					<span id="idValidation"></span> 
+					<span id="idCheckValidation"></span> 
 				</div>
 			</div>
 			
 			<div class="input-container">
 				<div class="input-name">비밀번호</div>
 				<div>
-					<input type="password" name="password" id="password" placeholder="비밀번호 : 8-14자리"/>		
+					<input type="password" name="password" maxlength="14" id="password" placeholder="비밀번호 : 8-14자리"/>		
 				</div>
 			</div>
 			
 			<div class="input-container">
 				<div class="input-name">비밀번호 확인</div>
 				<div>
-					<input type="password" name="password-re" id="password-re" placeholder="비밀번호 확인"/>		
+					<input type="password" name="password-re" maxlength="14" id="password-re" placeholder="비밀번호 확인"/>		
 				</div>
 			</div>
 			
 			<div class="input-container">
 				<div class="input-name">사용자 이름</div>
 				<div>
-					<input type="text" name="userName" id="userName" placeholder="사용자 이름"/>
+					<input type="text" name="userName" maxlength="15" id="userName" placeholder="사용자 이름"/>
 				</div>
 			</div>
 			
 			<div class="input-container">
 				<div class="input-name">별명</div>
 				<div>
-					<input type="text" name="nickName" id="nickName" placeholder="닉네임" onkeyup="nickNameCheck();"/>
+					<input type="text" name="nickName" maxlength="14" id="nickName" placeholder="닉네임" onkeyup="idCheck(this.value, '2', 'nickNameCheck');"/>
 				</div>
 				<div class="validation-container">
-					<span id="nickNameValidation"></span> 
+					<span id="nickNameCheckValidation"></span> 
 				</div>
 			</div>
 			
 			<div class="input-container">
 				<div class="input-name">소환사 이름</div>
 				<div>
-					<input type="text" name="summonerName" id="summonerName" placeholder="LOL 소환사 이름" onkeyup="summonerNameCheck();"/> 			
+					<input style="width: 195px;" type="text" name="summonerName" maxlength="14" id="summonerName" placeholder="LOL 소환사 이름"/> 			
+					<input style="width: 50px;" type="button" value="인증" onclick="summonerNameCheck();">
 				</div>
 				<div class="validation-container">
-					<span id="summonerNameValidation"></span> 
+					<span id="summonerNameCheckValidation"></span> 
 				</div>
 			</div>
 			
@@ -316,7 +292,7 @@
 			<div class="input-container">
 				<div class="input-name">휴대폰 번호</div>
 				<div>
-					<input type="text" name="phone" id="phone" placeholder="전화번호 입력 : 000-0000-0000"> 
+					<input type="text" name="phone" id="phone" maxlength="13" placeholder="전화번호 입력 : 000-0000-0000"> 
 				</div>
 			</div>
 			

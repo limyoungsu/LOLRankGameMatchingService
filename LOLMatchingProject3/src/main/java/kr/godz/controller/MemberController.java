@@ -56,24 +56,23 @@ public class MemberController {
 	
 	@RequestMapping(value="/member/idCheck")
 	@ResponseBody
-	public String idCheck(@RequestParam String userId) {
-		System.out.println(userId + "******************* idCheck **************************");
-		String result = memberService.idCheck(userId);
+	public String idCheck(@RequestParam String id) {
+		System.out.println(id + "******************* idCheck **************************");
+		String result = memberService.idCheck(id);
 		return result;
 	}
 	
 	@RequestMapping(value="/member/nickNameCheck")
 	@ResponseBody
-	public String nickNameCheck(@RequestParam String nickName) {
-		System.out.println(nickName + "******************* nickNameCheck **************************");
-		String result = memberService.nickNameCheck(nickName);
+	public String nickNameCheck(@RequestParam String id) {
+		System.out.println(id + "******************* nickNameCheck **************************");
+		String result = memberService.nickNameCheck(id);
 		return result;
 	}
 	
 	@RequestMapping(value="/member/summonerNameCheck")
 	@ResponseBody
 	public String summonerNameCheck(@RequestParam String summonerName) {
-		System.out.println(summonerName + "******************* summonerNameCheck **************************");
 		String result = memberService.summonerNameCheck(summonerName);
 		return result;
 	}
