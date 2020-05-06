@@ -1,14 +1,13 @@
 package kr.godz.controller;
 
-import java.security.Principal;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,16 +34,17 @@ public class MemberController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Model model, Principal principal) {
-		logger.info("home call : " + principal);
+	public String home(Model model) {
+		logger.info("home call");
+		
 		MemberVO vo = null;
-		if(principal != null) {			
-			String userId = principal.getName();
-			if(userId != null) {
-				vo = memberService.selectByUserId(userId);
-			}
+		String userId = getPrincipal();
+		if(userId != null) {
+			vo = memberService.selectByUserId(userId);
 		}
 		model.addAttribute("vo", vo);
+		
+		logger.info("home return : " + vo);
 		return "home";
 	}
 	
@@ -140,62 +140,21 @@ public class MemberController {
 		return "member/login";
 	}
 	
-//	@RequestMapping(value = "/member/loginProcess")
-//	public String loginError(@RequestParam(required = false) String error, Principal principal, HttpServletRequest req) {
-//		logger.info("loginError call : " + error + ", " + principal);	// error 값이 안뜸, 로그인 실패니 principal은 null
-//		if(error != null) {
-//			logger.info("loginCompletePost fail : ID, PW 매칭 실패.");
-//			req.setAttribute("errMsg", "아이디와 비밀번호를 다시 확인해주세요.");
-//		} else {
-//			
-//		}
-//		return "forward:/member/login";
-//	}
+	@RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
+    public String accessDeniedPage(Model model) {
+        model.addAttribute("userId", getPrincipal());
+        return "accessDenied";
+    }
 	
-
-//	@RequestMapping(value = "/member/loginProcess")
-//	public String loginCompletePost(@RequestParam(required = false) String remember, @RequestParam(required = false) String error, 
-//									Model model, HttpServletRequest req, HttpServletResponse res) {
-//		logger.info("loginCompletePost call : " + error + ", " + remember);
-//		
-//		// 로그인 정보가 맞는지 확인 (DB 접근)
-//		MemberVO resultVo = memberService.loginValidation(vo.getUserId(), vo.getPassword());
-//		
-//		if(error != null) {
-//			// id, pw가 매칭되는 계정이 없으면
-//			logger.info("loginCompletePost fail : ID, PW 매칭 실패.");
-//			req.setAttribute("errMsg", "아이디와 비밀번호를 다시 확인해주세요.");
-//			return "forward:/member/login";
-//		}
-//		else {
-//			if(resultVo.getUseType() != 1) {
-//				// id, pw는 맞지만 useType이 1이 아닌 것
-//				logger.info("loginCompletePost fail : 계정 useType 불가용 상태.");
-//				req.setAttribute("errMsg", "계정이 사용이 불가능한 상태입니다.");
-//				return "forward:/member/login";
-//			}
-//			req.getSession().setAttribute("vo", resultVo);
-//			if(remember != null && remember.equals("save")) {
-//				// ID 저장 체크했으면 쿠키에 저장
-//				Cookie cookie = new Cookie("userId", resultVo.getUserId());
-//				cookie.setMaxAge(60*60*24*7);	// 쿠키 일주일 동안 저장
-//				res.addCookie(cookie);
-//			} 
-//			else {
-//				// ID 저장 체크 안했으면 쿠키 삭제
-//				Cookie cookie = new Cookie("userId", "");
-//				cookie.setMaxAge(0); 
-//				res.addCookie(cookie);
-//			}
-//		}
-//		logger.info("loginCompletePost return");
-//		return "redirect:/";
-//	}
-	
-//	@RequestMapping(value = "/member/logout")
-//	public String logout(HttpServletRequest req) {
-//		// 세션 어트리뷰트 삭제
-//		req.getSession().removeAttribute("vo");
-//		return "redirect:/";
-//	}
+	private String getPrincipal(){
+        String userName = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+ 
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails)principal).getUsername();
+        } else {
+            userName = principal.toString();
+        }
+        return userName;
+    }
 }
