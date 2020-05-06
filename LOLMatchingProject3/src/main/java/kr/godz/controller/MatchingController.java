@@ -45,8 +45,8 @@ public class MatchingController {
 		SummonerVO vo = matchingService.getSummonerInfo(summonerName);
 		
 		model.addAttribute("nickName", nickName);
-		model.addAttribute("svo", vo);
 		model.addAttribute("summonerName", vo.getName());
+		model.addAttribute("svo", vo);
 		model.addAttribute("championList", championList);
 		model.addAttribute("laneInfo", laneInfo);
 		
