@@ -22,7 +22,7 @@ html, body {
 }
 
 #top-content {
-
+	margin: 0 auto;
 }
 
 #top-content>div:first-child {	
@@ -48,6 +48,7 @@ html, body {
 }
 
 #top2-content {
+	margin: 0 auto;
 	line-height: 55px;
 	font-size: 1.5rem;
 	text-align: center;
@@ -76,7 +77,7 @@ html, body {
 }
 
 #body-content {
-	
+	border-bottom: 1px solid gainsboro;
 }
 
 #footer-container {
@@ -85,7 +86,8 @@ html, body {
 }
 
 #footer-content {
-	border-top: 1px solid gray;
+	border-top: 1px solid #888;
+	padding-top: 15px;
 }
 
 #infoBtn {

@@ -6,6 +6,8 @@ a {
 	color: #222;	
 }
 
+
+
 /* nav bar 설정 */
 nav>#nav-tab>.match-info {
 	width: 50%;
@@ -13,17 +15,19 @@ nav>#nav-tab>.match-info {
 
 nav>#nav-tab>a {
 	text-align: center;
+	border: 1px solid #999;
 }
 
 nav>#nav-tab>a:hover {
 	color: brown;
-	border: 1px solid #444;
+	border: 1px solid #333;
 }
 
 #nav-home, #nav-profile{
 	padding: 15px;
 	background-color: #fff;
 }
+
 
 
 /* Hader 부분 */
@@ -55,9 +59,9 @@ nav>#nav-tab>a:hover {
 }
 
 
+
 /* Card Container 부분  */
 #card-container {
-	border-bottom: 1px solid gainsboro;
 	width: 650px;
 	margin: 15px auto;
 }
