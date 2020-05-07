@@ -29,7 +29,7 @@
 	// 입력값이 올바른지 검사하기 위해
 	function formCheck() {
 		// LOGIC
-		if($("#idValidation").css('color') != 'rgb(0, 255, 127)'){
+		if($("#idCheckValidation").css('color') != 'rgb(0, 255, 127)'){
 			alert('중복된 아이디입니다.');
 			$("#userId").val("");
 			$("#userId").focus();
@@ -183,8 +183,10 @@
 		}
 	}
  	
+	// 소환사명 체크
 	function summonerNameCheck() {
 		var value = $("#summonerName").val();
+		value = encodeURI(value);
 		if(value.length > 0) {
 			$.ajax("summonerNameCheck", {
 				type : 'GET',

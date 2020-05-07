@@ -6,7 +6,6 @@
 <style type="text/css">
 
 </style>
-<script type="text/javascript"></script>
 <script type="text/javascript">
 	$(function() {
 		
@@ -36,7 +35,9 @@
 			<div id="btn-container">
 				<button class="btn btn-danger btn-func" id="logoutBtn" onclick="location.href='./member/logout'">로그아웃</button>
 				<button class="btn btn-danger btn-func" id="serviceBtn" 
-						onclick="location.href='./matching/mypage?nickName=${vo.nickName }&summonerName=${vo.summonerName}'">서비스 시작</button>
+					onclick='post_to_url("${pageContext.request.contextPath }/matching/mypage", {"nickName":"${vo.nickName}", "summonerName":"${vo.summonerName }"})'>
+					서비스 시작
+				</button>
 			</div>
 		</c:if>
 	</div>		
