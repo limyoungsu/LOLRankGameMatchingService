@@ -1,0 +1,41 @@
+@charset "UTF-8";
+
+/* Search Accordion Menu */
+#accor-container {
+	border-top: 1px solid gainsboro;	
+}
+
+#accor-content {
+	margin: 14px auto;
+}
+
+#accor-content>.row {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+#accor-content>p .btn {
+	width: 49.6%;
+}
+
+#accor-search-container, 
+#accor-write-container {
+	width: 100%;
+	background-color: #fff;
+}
+
+#accor-search-container>#accor-search, 
+#accor-write-container>#accor-write {
+	width: 70%;
+	margin: 0 auto;
+}
+
+#accor-search>.card-body, 
+#accor-write>.card-body {
+	border: none;
+}
+
+#submitBtn {
+	margin-top: 10px;
+	width: 100%;
+}

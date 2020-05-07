@@ -3,12 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <title><sitemesh:write property='title' /></title>
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/matchingPage.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
 <script type="text/javascript">
 	$(function() {
 	
@@ -52,23 +55,16 @@
 	</div>
 	<div id="top2-container" class="container-box">
 		<div id="top2-content" class="content-box row">
-			<!--  
-			<form name="paging" id="paging">
-		    	<input type="hidden" name="nickName" value="${nickName }"/>
-		    	<input type="hidden" name="summonerName" value="${summonerName }"/>
-		    </form>
-		    -->
 			<div class="col-sm">
 				<!--  <a href="${pageContext.request.contextPath }/board/solorank">솔로랭크</a> -->
 				<!-- 
 					SITEMESH를 사용했기 때문인지 값이 제대로 들어오지 않음, 실제로 matching/mypage에서 f12로 보면 form의 value에 data 들어가 있음. 
 					링크를 분리해야하나? 
 				-->
-				<a href="${pageContext.request.contextPath }/matching/board/solorank?nickName=${nickName }&summonerName=${summonerName }">솔로랭크</a>
+				<a href="${pageContext.request.contextPath }/matching/board/rank?nickName=${nickName }&summonerName=${summonerName }">랭크매칭</a>
 			</div>
 			<div class="col-sm">
-				<!-- <a href="${pageContext.request.contextPath }/matching/board/flexrank">자유랭크</a> -->
-				<a href="${pageContext.request.contextPath }/matching/board/flexrank?nickName=${nickName }&summonerName=${summonerName }">자유랭크</a>
+			
 			</div>
 			<div class="col-sm">
 			
@@ -85,7 +81,6 @@
 	</div>
 	<div id="footer-container" class="container-box">
 		<div id="footer-content" class="content-box">
-			<lolza class="GG"></lolza> <br />
 			© 2020-2022 LOLZA.GG. LOLZA.GG isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
 		</div>
 	</div>

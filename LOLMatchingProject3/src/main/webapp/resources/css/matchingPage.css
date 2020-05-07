@@ -2,9 +2,10 @@
 	font-family: 'Do Hyeon', sans-serif;
 }
 
-html, body {
+html body {
     margin: 0;
     font-size: 15px;
+    background-color: gainsboro;
 }
 
 .container-box {
@@ -91,6 +92,5 @@ html, body {
 }
 
 #infoBtn {
-	margin-top: 12.5px;
-	height: 30px;
+	
 }

@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Matching Main</title>
+<title>마이페이지</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPageCss.css" />
 <script type="text/javascript">
 	$(function() {	
