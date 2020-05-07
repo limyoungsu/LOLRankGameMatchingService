@@ -31,6 +31,11 @@
 	<logger name="org.springframework.web">
 		<level value="info" />
 	</logger>
+	
+	<!-- Security Log Warn 단계부터 보여줌 ; 너무길어,,, -->
+	<logger name="org.springframework.security">
+		<level value="warn" />
+	</logger>
 
 	<!-- Root Logger -->
 	<root>
