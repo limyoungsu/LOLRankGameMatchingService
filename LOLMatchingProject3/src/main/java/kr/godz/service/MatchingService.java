@@ -134,23 +134,31 @@ public class MatchingService {
 	public SummonerVO getSummonerMatchGames(SummonerVO svo, Gson gson) throws JsonSyntaxException, JsonIOException, MalformedURLException, IOException {
 		logger.info("getSummonerMatchGames call : " + svo);
 
-		long lastGameTime = 0L;
+		long soloLastGameTime = 0;
+		long flexLastGameTime = 0;
 		
 		// Solo Rank Match
 		MatchInfoVO matchInfo = new MatchInfoVO();
 		String urlAddress = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/" + svo.getAccountId() + "?queue=" + soloType 
 						+ "&beginTime=" + beginTime + "&api_key=" + key;
 		
-		matchInfo = getRecentlyGames(matchInfo, gson, urlAddress);
+		try {
+			matchInfo = getRecentlyGames(matchInfo, gson, urlAddress);
+			
+//			System.out.println("Data 수 : " + matchInfo.getMatches().length);
+//			System.out.println(matchInfo.getChampionCnt());
+//			System.out.println(matchInfo.getRoleCnt());
+//			System.out.println("신뢰도" + matchInfo.getReliability());
+			
+			matchInfo = getChampionRecords(svo.getName() ,matchInfo, gson);
+			if(matchInfo.getMatches().length != 0) {			
+				soloLastGameTime = matchInfo.getMatches()[0].getTimestamp();
+			}
+			svo.setSoloGames(matchInfo);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		
-		System.out.println("Data 수 : " + matchInfo.getMatches().length);
-		System.out.println(matchInfo.getChampionCnt());
-		System.out.println(matchInfo.getRoleCnt());
-		System.out.println("신뢰도" + matchInfo.getReliability());
-		
-		matchInfo = getChampionRecords(svo.getName() ,matchInfo, gson);
-		lastGameTime = matchInfo.getMatches()[0].getTimestamp();
-		svo.setSoloGames(matchInfo);
 		
 		
 		// Flex Rank Match
@@ -158,18 +166,32 @@ public class MatchingService {
 		urlAddress = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/" + svo.getAccountId() + "?queue=" + flexType 
 					+ "&beginTime=" + beginTime + "&api_key=" + key;
 		
-		matchInfo = getRecentlyGames(matchInfo, gson, urlAddress);
+		try {
+			matchInfo = getRecentlyGames(matchInfo, gson, urlAddress);
+			
+//			System.out.println("Data 수 : " + matchInfo.getMatches().length);
+//			System.out.println(matchInfo.getChampionCnt());
+//			System.out.println(matchInfo.getRoleCnt());
+//			System.out.println("신뢰도" + matchInfo.getReliability());
+			
+			matchInfo = getChampionRecords(svo.getName() ,matchInfo, gson);
+			if(matchInfo.getMatches().length != 0) {			
+				flexLastGameTime = matchInfo.getMatches()[0].getTimestamp();
+			}
+			svo.setFlexGames(matchInfo);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		
-		System.out.println("Data 수 : " + matchInfo.getMatches().length);
-		System.out.println(matchInfo.getChampionCnt());
-		System.out.println(matchInfo.getRoleCnt());
-		System.out.println("신뢰도" + matchInfo.getReliability());
+		System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& 솔랭 : " + soloLastGameTime);
+		System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& 자랭 : " + flexLastGameTime);		
 		
-		matchInfo = getChampionRecords(svo.getName() ,matchInfo, gson);
-		lastGameTime = lastGameTime > matchInfo.getMatches()[0].getTimestamp() ? lastGameTime : matchInfo.getMatches()[0].getTimestamp();
-		svo.setFlexGames(matchInfo);
-		
-		svo.setLastGameTime(timestampToDate(lastGameTime));
+		if((soloLastGameTime == 0) && (flexLastGameTime == 0)) {
+			svo.setLastGameTime("기록이 없습니다.");			
+		} else {
+			long recentGameTime = soloLastGameTime < flexLastGameTime ? flexLastGameTime : soloLastGameTime;
+			svo.setLastGameTime(timestampToDate(recentGameTime));
+		}
 		
 		logger.info("getSummonerMatchGames return : " + svo);
 		return svo;
