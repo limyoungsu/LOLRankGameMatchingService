@@ -1,6 +1,6 @@
 package kr.godz.controller;
 
-import java.net.URLEncoder;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +24,20 @@ public class BoardController {
 	final static private Logger logger = LoggerFactory.getLogger(BoardController.class);
 	
 	@RequestMapping(value = "/matching/board/rank")
-	public String matchingRank(Model model, @RequestParam(value = "nickName") String nickName, 
-											@RequestParam(value = "summonerName") String summonerName) {
+	public String matchingRank(Model model, @RequestParam(value = "nickName", required = false) String nickName, 
+							HttpServletRequest request, @RequestParam(value = "summonerName", required = false) String summonerName) {
+
+		// 최초에 mypage에서 들어오는 것이 정상적인 접근이고, 그 때는 RequestParam으로 데이터 두개를 받음, 후에 세션에 저장
+		// 즉, 리다이렉트 되는 경우에는 이전에 세션에 넣었던 값을 가지고 사용함
+		if(request.getSession().getAttribute("nickName") != null) {			
+			nickName = (String) request.getSession().getAttribute("nickName");
+			summonerName = (String) request.getSession().getAttribute("summonerName");
+		}
+		
 		logger.info("matchingRank call : " + nickName + ", " + summonerName);
+		
+		request.getSession().setAttribute("nickName", nickName);
+		request.getSession().setAttribute("summonerName", summonerName);
 		
 		model.addAttribute("nickName", nickName);
 		model.addAttribute("summonerName", summonerName);
@@ -46,11 +57,9 @@ public class BoardController {
 	@RequestMapping(value = "/matching/board/writeProcess", method = RequestMethod.POST)
 	public String rankBoardWritePost(@ModelAttribute BoardVO boardVO) {
 		logger.info("rankBoardWritePost call : " + boardVO);
-		String nickName = URLEncoder.encode(boardVO.getNickName());
-		String summonerName = URLEncoder.encode(boardVO.getSummonerName());
 		boardService.insertMemo(boardVO);
 		
 		logger.info("rankBoardWritePost return");
-		return "redirect:/matching/board/rank?nickName="+nickName+"&summonerName="+summonerName;
+		return "redirect:/matching/board/rank";
 	}
 }
