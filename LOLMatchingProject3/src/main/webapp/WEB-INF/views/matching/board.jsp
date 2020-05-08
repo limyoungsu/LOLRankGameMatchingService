@@ -69,11 +69,11 @@
 	<div id="accor-container">
 		<div id="accor-content">		
 			<p>
-				<a id="searchBtn" class="btn btn-outline-dark" data-toggle="collapse" href="#accor-search" role="button" 
+				<a class="btn btn-outline-dark utilBtn" data-toggle="collapse" href="#accor-search" role="button" 
 					aria-expanded="false" aria-controls="accor-search">
 					검색
 				</a>
-				<button id="writeBtn" class="btn btn-outline-dark" type="button" data-toggle="collapse" data-target="#accor-write" 
+				<button class="btn btn-outline-dark utilBtn" type="button" data-toggle="collapse" data-target="#accor-write" 
 					aria-expanded="false" aria-controls="accor-write">
 					등록
 				</button>
@@ -102,11 +102,11 @@
 							  	</div>
 							  	<div class="form-group">
 							    	<label for="title">제목</label>
-							    	<input type="text" class="form-control" id="title" name="title" placeholder="글 제목">
+							    	<input type="text" class="form-control" id="title" name="title" placeholder="20자 이내로 작성">
 							  	</div>
 							  	<div class="form-group">
 							    	<label for="content">내용</label>
-							    	<textarea class="form-control" id="content" name="content" rows="3"></textarea>
+							    	<textarea class="form-control" id="content" name="content" rows="3" placeholder="100자 이내로 작성"></textarea>
 							  	</div>
 							  	<div class="form-row">
 							    	<div class="form-group col-md-6">
@@ -190,8 +190,8 @@
 						<!-- 게시글 하나 -->
 						<div class="card">
 							<div class="card-header" id="heading${i.count }">
-								<div id="board-">
-									<div id="timeZone">
+								<div id="board-header" class="row board-container">
+									<div id="timeArea" class="col-sm-4">
 										<!-- 날짜 정보를 담은 정보를 해당 포맷팅으로 -->
 										<fmt:formatDate var="boardFormatDate" value="${pvo.regDate }" pattern="yyyy-MM-dd HH:mm:ss"/>
 										<!-- 포맷팅한 데이터를 java의 Date type으로 바꿈 -->
@@ -212,36 +212,99 @@
 											${diffTime }시간 전
 										</c:if>
 									</div>
-								
+									<div class="col-sm dataContainer">
+										<div>
+											타입
+										</div>
+										<div class="dataArea">										
+											${pvo.queueType }
+										</div>
+									</div>
+									<div class="col-sm dataContainer">
+										<div>
+											티어
+										</div>
+										<div class="dataArea">
+											<c:if test="${pvo.tier eq '언랭' }">
+												${pvo.tier }								
+											</c:if>
+											<c:if test="${pvo.tier ne '언랭' }">
+												${pvo.tier } ${pvo.division }									
+											</c:if>										
+										</div>
+									</div>	
+									<div class="col-sm dataContainer">
+										<div>
+											라인
+										</div>
+										<div class="dataArea">										
+											${pvo.lane }
+										</div> 
+									</div>
+									<div class="col-sm dataContainer">
+										<div>
+											시간
+										</div >
+										<div class="dataArea">
+											<c:if test="${pvo.expectedTime eq 'all' }">
+												모든 시간 가능
+											</c:if>
+											<c:if test="${pvo.expectedTime eq 'time1' }">
+												00시 - 06시
+											</c:if>
+											<c:if test="${pvo.expectedTime eq 'time2' }">
+												06시 - 12시
+											</c:if>
+											<c:if test="${pvo.expectedTime eq 'time3' }">
+												12시 - 18시
+											</c:if>
+											<c:if test="${pvo.expectedTime eq 'time4' }">
+												18시 - 24시
+											</c:if>
+										</div>
+									</div>
+									<div class="col-sm dataContainer">
+										<div>
+											보이스
+										</div>
+										<div class="dataArea">
+											<c:if test="${pvo.isVoice eq 'necessary' }">
+												필수
+											</c:if>
+											<c:if test="${pvo.isVoice ne 'necessary' }">
+												필수아님
+											</c:if>
+										</div>
+									</div>
 								</div>
-		          				<div>${pvo.nickName }</div>
-								<div>${pvo.summonerName }</div>
-								<div>
-									<c:out value="${pvo.title }"></c:out>
+								<div id="board-main" class="row board-container">
+									<div id="titleContent" class="col-sm-9">									
+										<div>
+											<c:out value="${pvo.title }"></c:out>
+										</div>
+										<div>
+											<!--  
+											개행 쓸거면 여기 사용
+											<c:set value="${pvo.content }" var="content"></c:set>
+											<c:set value="${fn:replace(content, '<', '&nbsp;') }"  var="content" ></c:set>
+											<c:set value='${fn:replace(content, newLine, br) }' var="content"></c:set>
+											${content }
+											-->
+											<!-- 개행 안쓸거면 이걸로 사용 -->
+											<c:out value="${pvo.content }"></c:out>																		
+										</div>
+									</div>
+									<div id="userInfo" class="col-sm-3">
+				          				<div>닉네임 : ${pvo.nickName }</div>
+										<div>소환사명 : ${pvo.summonerName }</div>
+										<h2 id="detailBtn" class="mb-0">
+											<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${i.count }" 
+											aria-expanded="true" aria-controls="collapse${i.count }">
+												프로필 보기
+								        	</button>
+								      	</h2>
+									</div>
 								</div>
-								<div>
-									<!--  
-									개행 쓸거면 여기 사용
-									<c:set value="${pvo.content }" var="content"></c:set>
-									<c:set value="${fn:replace(content, '<', '&nbsp;') }"  var="content" ></c:set>
-									<c:set value='${fn:replace(content, newLine, br) }' var="content"></c:set>
-									${content }
-									-->
-									<!-- 개행 안쓸거면 이걸로 사용 -->
-									<c:out value="${pvo.content }"></c:out>																		
-								</div>
-								<div>${pvo.tier }</div>
-								<div>${pvo.division }</div>
-								<div>${pvo.lane }</div>
-								<div>${pvo.queueType }</div>
-								<div>${pvo.expectedTime }</div>
-								<div>${pvo.isVoice }</div>
-								<h2 class="mb-0">
-									<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${i.count }" 
-									aria-expanded="true" aria-controls="collapse${i.count }">
-										상세보기
-						        	</button>
-						      	</h2>
 						    </div>
 						    
 							<!-- 글쓴이 전적 -->

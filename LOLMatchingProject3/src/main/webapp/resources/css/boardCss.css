@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-/* Search Accordion Menu */
+/* Search/Write Accordion Menu */
 #accor-container {
 	border-top: 1px solid gainsboro;	
 }
@@ -14,7 +14,11 @@
 	margin-right: 0;
 }
 
-#accor-content>p .btn {
+#accor-content>p {
+	margin-bottom: 0;	
+}
+
+#accor-content .utilBtn {
 	width: 49.6%;
 }
 
@@ -38,4 +42,114 @@
 #submitBtn {
 	margin-top: 10px;
 	width: 100%;
+}
+
+
+/* Board Accordion Menu */
+#accordionBoard>.card {
+	margin: 14px auto;
+	background-color: #eee;
+	border: none;
+}
+
+#accordionBoard>.card>.card-header>#board-main {
+	min-height: 70px;	
+}
+
+#accordionBoard>.card>.card-header {
+	padding: 0.75rem 0.75rem;
+	border: none;
+}
+
+
+
+/* board 공통 */
+#board-header>div, #board-footer>div, #board-main {
+	padding-right: 7.5px;
+	padding-left: 7.5px;
+}
+
+.board-container {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+
+
+/* board-main 부분 */
+#board-header {
+	margin-bottom: 15px;
+}
+
+#board-header>div {
+	line-height: 20px;
+	border-left: 1.5px solid gray;
+	text-align: center;
+}
+
+#board-header>.dataContainer>div {
+	font-size: 0.75rem;
+	color: black;
+	height: 20px;
+}
+
+#board-header>.dataContainer>.dataArea {
+	font-size: 1rem;
+	color: maroon;
+	height: 20px;
+}
+
+#board-header>.dataContainer:last-child {
+	border-right: 1.5px solid gray;	
+}
+
+#board-header>#timeArea {
+	line-height: 40px;
+	border: none;
+	text-align: left;
+	font-size: 1.2rem;
+	color: #ee5555;
+}
+
+
+
+/* board-main 부분 */
+#board-main {
+	position: relative;
+}
+
+#board-main>#titleContent>div:first-child {
+	font-size: 1.3rem;
+}
+
+#board-main>#titleContent>div:last-child {
+	font-size: 1rem;	
+}
+
+
+
+/* board-footer 부분 */
+#userInfo {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	margin-bottom: 0;
+}
+
+#userInfo div {
+	text-align: right;
+	height: 20px;
+} 
+
+#detailBtn {
+	text-align: right;
+}
+
+#detailBtn>button {
+	color: #ee5555;
+	padding: 0px;
+}
+
+.collapse {
+	background-color: #eee;	
 }
