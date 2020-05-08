@@ -3,6 +3,8 @@ package kr.godz.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +37,15 @@ public class MatchingController {
 	final static private Logger logger = LoggerFactory.getLogger(MatchingController.class);
 	
 	@RequestMapping(value = "/matching/mypage")
-	public String matchingHome(Model model, @RequestParam(value="summonerName") String summonerName, 
-								@RequestParam(value = "nickName") String nickName) {
-		logger.info("matchingHome call : " + summonerName + ", " + nickName);
+	public String matchingHome(Model model, HttpServletRequest request) {
+		logger.info("matchingHome call");
+		
+		String nickName = (String) request.getSession().getAttribute("nickName");
+		String summonerName = (String) request.getSession().getAttribute("summonerName");
 		
 		// 주기능 페이지 home에서 챔피언 리스트를 초기화
 		matchingService.InitChampionList(championList);
+		
 		// 소환사 이름을 통한 소환사 정보를 가져와서 jsp로 넘김
 		SummonerVO vo = matchingService.getSummonerInfo(summonerName);
 		

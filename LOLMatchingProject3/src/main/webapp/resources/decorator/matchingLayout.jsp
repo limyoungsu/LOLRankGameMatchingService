@@ -65,8 +65,7 @@
 					SITEMESH를 사용했기 때문인지 값이 제대로 들어오지 않음, 실제로 matching/mypage에서 f12로 보면 form의 value에 data 들어가 있음. 
 					링크를 분리해야하나? 
 				-->
-				<a type="button" 
-				onclick='post_to_url("${pageContext.request.contextPath }/matching/board/rank", {"nickName":"${nickName}", "summonerName":"${summonerName }"})'>
+				<a type="button" onclick="location.href='${pageContext.request.contextPath }/matching/board/rank'">
 					랭크매칭
 				</a>
 			</div>

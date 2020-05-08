@@ -34,13 +34,17 @@ public class MemberController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Model model) {
+	public String home(Model model, HttpServletRequest request) {
 		logger.info("home call");
 		
 		MemberVO vo = null;
 		String userId = getPrincipal();
-		if(userId != null) {
+		if(!userId.equals("anonymousUser")) {
 			vo = memberService.selectByUserId(userId);
+			
+			// vo에서 nickName과 summonerName을 세션에 저장해서 계속 사용
+			request.getSession().setAttribute("nickName", vo.getNickName());
+			request.getSession().setAttribute("summonerName", vo.getSummonerName());
 		}
 		model.addAttribute("vo", vo);
 		

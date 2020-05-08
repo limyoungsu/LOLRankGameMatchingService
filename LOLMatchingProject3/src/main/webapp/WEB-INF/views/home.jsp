@@ -33,11 +33,10 @@
 				</c:if>
 			</div>
 			<div id="btn-container">
-				<button class="btn btn-danger btn-func" id="logoutBtn" onclick="location.href='./member/logout'">로그아웃</button>
+				<button class="btn btn-danger btn-func" id="logoutBtn" 
+					onclick="location.href='${pageContext.request.contextPath }/member/logout'">로그아웃</button>
 				<button class="btn btn-danger btn-func" id="serviceBtn" 
-					onclick='post_to_url("${pageContext.request.contextPath }/matching/mypage", {"nickName":"${vo.nickName}", "summonerName":"${vo.summonerName }"})'>
-					서비스 시작
-				</button>
+					onclick="location.href='${pageContext.request.contextPath }/matching/mypage'">서비스 시작</button>
 			</div>
 		</c:if>
 	</div>		
