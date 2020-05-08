@@ -1,5 +1,7 @@
 package kr.godz.controller;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -38,6 +40,9 @@ public class BoardController {
 		model.addAttribute("nickName", nickName);
 		model.addAttribute("summonerName", summonerName);
 		model.addAttribute("pagingVO", pagingVO);
+		model.addAttribute("newLine", "\n");
+		model.addAttribute("br", "</br>");
+		model.addAttribute("todayTime", new Date().getTime());
 		
 		logger.info("matchingRank return");
 		return "/matching/board";
