@@ -57,16 +57,28 @@ public class MatchingService {
 		
 		try {
 			// 1. Get Summoner Account Information
+			long start1 = System.currentTimeMillis();
 			svo = getSummonerAccountInfo(summonerName, gson);
+			long end1 = System.currentTimeMillis();
+			System.out.println("getSummonerAccountInfo Time : " + (double)(end1 - start1) / 1000 + " 초");
 			
 			// 2. Get Summoner Champion Mastery (ONLY 1st place Champion)
+			long start2 = System.currentTimeMillis();
 			svo = getSummonerChampMastery(svo, gson);
+			long end2 = System.currentTimeMillis();
+			System.out.println("getSummonerChampMastery Time : " + (double)(end2 - start2) / 1000 + " 초");
 			
 			// 3. Get Summoner League Entry each Rank Games(SOLO OR FLEX)
+			long start3 = System.currentTimeMillis();
 			svo = getSummonerLeagueEntry(svo, gson);
+			long end3 = System.currentTimeMillis();
+			System.out.println("getSummonerLeagueEntry Time : " + (double)(end3 - start3) / 1000 + " 초");
 			
 			// 4. Get Summoner Match Games Information each Rank Games(SOLO OR FLEX)
+			long start4 = System.currentTimeMillis();
 			svo = getSummonerMatchGames(svo, gson);
+			long end4 = System.currentTimeMillis();
+			System.out.println("getSummonerMatchGames Time : " + (double)(end4 - start4) / 1000 + " 초");
 			
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -76,7 +88,7 @@ public class MatchingService {
 		
 		long end = System.currentTimeMillis();
 
-		System.out.println( (double)(end - start) / 1000 + " 초");
+		System.out.println("getSummonerInfo Time : " + (double)(end - start) / 1000 + " 초");
 		
 		logger.info("getSummonerInfo return : " + svo);
 		return svo;
