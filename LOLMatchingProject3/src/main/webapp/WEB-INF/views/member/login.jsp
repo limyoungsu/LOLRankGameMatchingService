@@ -56,7 +56,7 @@
 				<div class="input-name">계정 이름</div>
 				<div>
 					<!-- value의 userId 는 Controller에서 Cookie의 userId 값을 넘긴 것 -->
-					<input type="text" name="userId" placeholder="User ID" id="userId" value="${userId }">		
+					<input type="text" name="userId" placeholder="User ID" id="userId" value="${userId }" maxlength="20">		
 				</div>
 			</div>	
 			
@@ -64,7 +64,7 @@
 				<div class="input-name">비밀번호</div>
 				<div>
 					<!-- value의 userId 는 Controller에서 Cookie의 userId 값을 넘긴 것 -->
-					<input type="password" name="password" placeholder="Password" id="password">	
+					<input type="password" name="password" placeholder="Password" id="password" maxlength="16">	
 				</div>
 			</div>	
 			

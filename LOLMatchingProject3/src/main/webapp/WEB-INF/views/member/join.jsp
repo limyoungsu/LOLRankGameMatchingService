@@ -235,7 +235,7 @@
 			<div class="input-container">
 				<div class="input-name">계정 이름</div>
 				<div>
-					<input type="text" name="userId" id="userId" placeholder="계정 이름  : 메일주소" maxlength="30" onkeyup="idCheck(this.value, '10', 'idCheck');"/> 			
+					<input type="text" name="userId" id="userId" placeholder="계정 이름  : 메일주소" maxlength="20" onkeyup="idCheck(this.value, '10', 'idCheck');"/> 			
 				</div>
 				<div class="validation-container">
 					<span id="idCheckValidation"></span> 
@@ -259,14 +259,14 @@
 			<div class="input-container">
 				<div class="input-name">사용자 이름</div>
 				<div>
-					<input type="text" name="userName" maxlength="15" id="userName" placeholder="사용자 이름"/>
+					<input type="text" name="userName" maxlength="20" id="userName" placeholder="사용자 이름"/>
 				</div>
 			</div>
 			
 			<div class="input-container">
 				<div class="input-name">별명</div>
 				<div>
-					<input type="text" name="nickName" maxlength="14" id="nickName" placeholder="닉네임" onkeyup="idCheck(this.value, '2', 'nickNameCheck');"/>
+					<input type="text" name="nickName" maxlength="20" id="nickName" placeholder="닉네임" onkeyup="idCheck(this.value, '2', 'nickNameCheck');"/>
 				</div>
 				<div class="validation-container">
 					<span id="nickNameCheckValidation"></span> 
@@ -276,7 +276,7 @@
 			<div class="input-container">
 				<div class="input-name">소환사 이름</div>
 				<div>
-					<input style="width: 195px;" type="text" name="summonerName" maxlength="14" id="summonerName" placeholder="LOL 소환사 이름"/> 			
+					<input style="width: 195px;" type="text" name="summonerName" maxlength="20" id="summonerName" placeholder="LOL 소환사 이름"/> 			
 					<input style="width: 50px;" type="button" value="인증" onclick="summonerNameCheck();">
 				</div>
 				<div class="validation-container">

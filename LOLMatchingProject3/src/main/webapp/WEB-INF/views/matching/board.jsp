@@ -14,7 +14,11 @@
 
 <script type="text/javascript">
 	$(function() {
-
+		$("#detailBtn>button").click(function() {
+			$.ajax(url, {
+				
+			})
+		});
 	});
 	
 	function tierChange(e) {
@@ -102,11 +106,11 @@
 							  	</div>
 							  	<div class="form-group">
 							    	<label for="title">제목</label>
-							    	<input type="text" class="form-control" id="title" name="title" placeholder="20자 이내로 작성">
+							    	<input type="text" class="form-control" id="title" name="title" placeholder="20자 이내로 작성" maxlength="20">
 							  	</div>
 							  	<div class="form-group">
 							    	<label for="content">내용</label>
-							    	<textarea class="form-control" id="content" name="content" rows="3" placeholder="100자 이내로 작성"></textarea>
+							    	<textarea class="form-control" id="content" name="content" rows="3" placeholder="100자 이내로 작성" maxlength="100"></textarea>
 							  	</div>
 							  	<div class="form-row">
 							    	<div class="form-group col-md-6">
@@ -310,7 +314,7 @@
 							<!-- 글쓴이 전적 -->
 						    <div id="collapse${i.count }" class="collapse" aria-labelledby="heading${i.count }" data-parent="#accordionBoard">
 								<div class="card-body">
-									전적 보여줄 예정
+									
 						      	</div>
 							</div>
 						</div>

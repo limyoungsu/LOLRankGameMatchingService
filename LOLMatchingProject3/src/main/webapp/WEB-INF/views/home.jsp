@@ -26,7 +26,6 @@
 			<div class="msgbox">			
 				<span class="greetingbox">${vo.nickName }님 반갑습니다.</span> <br />
 				<a class="member-func" href="#">마이페이지</a> <br />
-				<a class="member-func" href="#">정보 수정</a> <br />
 				<a class="member-func" href="#">회원 탈퇴</a> <br />
 				<c:if test="${vo.userId eq 'lys7120@gmail.com' }">
 					<a class="member-func" href="#">관리자모드</a>
