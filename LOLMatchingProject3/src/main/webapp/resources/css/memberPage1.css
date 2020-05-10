@@ -96,12 +96,13 @@ html, body {
 	padding-top: 25%;
 }
 
-.member-func {
+.msgbox>.member-func, .member-func {
+	cursor: pointer;
 	color: rgba(235, 220, 220, 1);
 	font-size: 15pt;
 }
 
-.member-func:hover {
+.msgbox>.member-func:hover, .member-func:hover {
 	color: rgba(255, 50, 100, 1);
 	text-decoration: none;
 }

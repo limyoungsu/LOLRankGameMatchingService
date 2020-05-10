@@ -26,7 +26,31 @@
 			<div class="msgbox">			
 				<span class="greetingbox">${vo.nickName }님 반갑습니다.</span> <br />
 				<a class="member-func" href="#">마이페이지</a> <br />
-				<a class="member-func" href="#">회원 탈퇴</a> <br />
+				<a class="member-func" data-toggle="modal" data-target="#exampleModalScrollable">
+					회원 탈퇴
+				</a>
+				<!-- Modal -->
+				<div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-scrollable" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+				       			<h5 class="modal-title" id="exampleModalScrollableTitle">회원 탈퇴</h5>
+				        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          			<span aria-hidden="true">&times;</span>
+				        		</button>
+				      		</div>
+				      		<div class="modal-body">
+				        		정말로 탈퇴하시겠습니까?
+				      		</div>
+				      		<div class="modal-footer">
+				        		<button type="button" class="btn btn-danger" 
+				        			onclick="post_to_url('${pageContext.request.contextPath}/member/secession', {'userId' : '${vo.userId }'})">탈퇴</button>
+				        		<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+				      		</div>
+				    	</div>
+				    </div>
+				</div>
+				<br />
 				<c:if test="${vo.userId eq 'lys7120@gmail.com' }">
 					<a class="member-func" href="#">관리자모드</a>
 				</c:if>

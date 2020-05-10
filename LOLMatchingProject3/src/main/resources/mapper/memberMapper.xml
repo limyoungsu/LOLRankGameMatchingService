@@ -27,4 +27,12 @@
 	<update id="updateUseType" parameterType="java.lang.String">
 		update lol_member set useType=1 where userId = #{userId}
 	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		delete from lol_member where userId = #{userId}
+	</delete>
+	
+	<delete id="deleteRole" parameterType="java.lang.String">
+		delete from lol_member_role where userId = #{userId}
+	</delete>
 </mapper>

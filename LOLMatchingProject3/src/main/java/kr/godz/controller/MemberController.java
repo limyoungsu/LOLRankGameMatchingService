@@ -149,6 +149,30 @@ public class MemberController {
         return "accessDenied";
     }
 	
+	@RequestMapping(value = "/member/secession", method = RequestMethod.POST)
+	public String memberSecession(Model model, @RequestParam(value = "userId") String userId, @RequestParam(value = "error", required = false) String error) {
+		model.addAttribute("userId", userId);
+		if(error != null) {
+			if(error.equals("mismatchError")) {
+				model.addAttribute("errMsg", "아이디와 비밀번호를 다시 확인해주세요.");				
+			}
+		}
+		return "member/secession";
+	}
+	
+	@RequestMapping(value = "/member/secessionProcess", method = RequestMethod.POST)
+	public String memberSecessionProcess(@RequestParam(value = "password") String password, @RequestParam(value = "userId") String userId, 
+										HttpServletRequest request, Model model) {
+		boolean res = memberService.secession(userId, password);
+		if(res) {
+			request.getSession().invalidate();
+			return "redirect:/";			
+		} else {
+			model.addAttribute("userId", userId);
+			return "forward:/member/secession?error=mismatchError";
+		}
+	}
+	
 	private String getPrincipal(){
         String userName = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -160,6 +184,4 @@ public class MemberController {
         }
         return userName;
     }
-	
-	
 }

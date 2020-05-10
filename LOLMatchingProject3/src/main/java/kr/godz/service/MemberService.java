@@ -82,21 +82,21 @@ public class MemberService {
 	}
 
 	// Login ; 입력한 정보(userId, password)에서 userId에 해당하는 DB정보를 불러와서 password를 비교
-	public MemberVO loginValidation(String userId, String password) {
-		logger.info("loginValidation call : " + userId + ", " + password);
-		
-		// userId를 통해 DB에 저장된 정보를 얻어옴
-		MemberVO dbvo = memberDAO.selectByUserId(userId);
-		
-		// userId에 해당하는 userId가 DB에 있다면
-		if(dbvo != null) {			
-			if(!dbvo.getPassword().equals(password)) {
-				dbvo = null;
-			}
-		}
-		logger.info("loginValidation return : " + dbvo);
-		return dbvo;
-	}
+//	public MemberVO loginValidation(String userId, String password) {
+//		logger.info("loginValidation call : " + userId + ", " + password);
+//		
+//		// userId를 통해 DB에 저장된 정보를 얻어옴
+//		MemberVO dbvo = memberDAO.selectByUserId(userId);
+//		
+//		// userId에 해당하는 userId가 DB에 있다면
+//		if(dbvo != null) {			
+//			if(!dbvo.getPassword().equals(password)) {
+//				dbvo = null;
+//			}
+//		}
+//		logger.info("loginValidation return : " + dbvo);
+//		return dbvo;
+//	}
 	
 	// AJAX에서 호출하는 URL에서 사용하는 메소드 
 	// 1. id 중복 검사
@@ -185,5 +185,19 @@ public class MemberService {
 				memberDAO.updateUseType(userId);				
 			}
 		}
+	}
+
+	
+	public boolean secession(String userId, String password) {
+		MemberVO dbvo = selectByUserId(userId);
+		if(dbvo != null) {
+			if(bCryptPasswordEncoder.matches(password, dbvo.getPassword())) {
+				// delete 작업
+				memberDAO.delete(userId);
+				memberDAO.deleteRole(userId);
+				return true;
+			}
+		}
+		return false;
 	}
 }

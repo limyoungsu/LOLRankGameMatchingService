@@ -21,4 +21,10 @@ public interface MemberDAO {
 	// 메일 인증 후 useType을 1(가용상태)로 변경
 	public void updateUseType(String userId);
 
+	// 계정 삭제
+	public void delete(String userId);
+
+	// 계정에 대한 권한 삭제
+	public void deleteRole(String userId);
+
 }
