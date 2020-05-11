@@ -51,6 +51,7 @@
 				  	</button>
 				  	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 				    	<a class="dropdown-item" href="${pageContext.request.contextPath }/">홈으로</a>
+				    	<a class="dropdown-item" href="#">쪽지함</a>
 				    	<a class="dropdown-item" href="${pageContext.request.contextPath }/member/logout">로그아웃</a>
 				  	</div>
 				</div>
