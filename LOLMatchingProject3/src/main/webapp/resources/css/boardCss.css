@@ -15,11 +15,12 @@
 }
 
 #accor-content>p {
+	text-align: right;
 	margin-bottom: 10px;	
 }
 
 #accor-content .utilBtn {
-	width: 49.76%;
+	width: 200px;
 }
 
 #accor-search-container, 
