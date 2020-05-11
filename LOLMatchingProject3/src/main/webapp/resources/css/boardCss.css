@@ -6,7 +6,7 @@
 }
 
 #accor-content {
-	margin: 14px auto;
+	margin: 10px auto;
 }
 
 #accor-content>.row {
@@ -15,11 +15,11 @@
 }
 
 #accor-content>p {
-	margin-bottom: 0;	
+	margin-bottom: 10px;	
 }
 
 #accor-content .utilBtn {
-	width: 49.6%;
+	width: 49.76%;
 }
 
 #accor-search-container, 
@@ -39,7 +39,7 @@
 	border: none;
 }
 
-#submitBtn {
+#submitBtn, #searchBtn {
 	margin-top: 10px;
 	width: 100%;
 }
