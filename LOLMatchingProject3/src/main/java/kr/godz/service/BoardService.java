@@ -1,6 +1,8 @@
 package kr.godz.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,21 +32,25 @@ public class BoardService {
 
 	
 	// 2. DB의 모든 data를 가져옴 	
-	public PagingVO<BoardVO> selectList(int currentPage, int pageSize, int blockSize) {
-		logger.info("selectList call : " + currentPage + ", " + pageSize + ", " + blockSize);
+	public PagingVO<BoardVO> selectList(int currentPage, int pageSize, int blockSize, BoardVO boardVO) {
+		logger.info("selectList call : " + currentPage + ", " + pageSize + ", " + blockSize + ", " + boardVO);
 		
-		PagingVO<BoardVO> pagingVO = null;
-		try {
-			int totalCnt = boardDAO.selectCnt();
-			pagingVO = new PagingVO<BoardVO>(totalCnt, currentPage, pageSize, blockSize);
-			HashMap<String, Integer> map = new HashMap<String, Integer>();
-			map.put("startNo", pagingVO.getStartNo());
-			map.put("endNo", pagingVO.getEndNo());
-			pagingVO.setList(boardDAO.selectList(map));
-
-		} catch (Exception e) {
-			e.printStackTrace();
+		int totalCnt = boardDAO.selectCnt(boardVO);
+		System.out.println(totalCnt + " 개");
+		PagingVO<BoardVO> pagingVO = new PagingVO<BoardVO>(totalCnt, currentPage, pageSize, blockSize);
+		HashMap<String, String> map = new HashMap<>();
+		map.put("startNo", pagingVO.getStartNo()+"");
+		map.put("endNo", pagingVO.getEndNo()+"");
+		if(boardVO != null) {
+			map.put("tier", boardVO.getTier());
+			map.put("division", boardVO.getDivision());
+			map.put("queueType", boardVO.getQueueType());
+			map.put("lane", boardVO.getLane());
+			map.put("expectedTime", boardVO.getExpectedTime());
+			map.put("isVoice", boardVO.getIsVoice());
 		}
+		
+		pagingVO.setList(boardDAO.selectList(map));
 		
 		logger.info("selectList return : " + pagingVO);
 		return pagingVO;

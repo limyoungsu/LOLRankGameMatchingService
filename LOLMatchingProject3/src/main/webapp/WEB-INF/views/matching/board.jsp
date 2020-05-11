@@ -22,11 +22,16 @@
 	});
 	
 	function tierChange(e) {
-		$("#division option").remove();
+		var id = e.getAttribute('id');
+		var divisionId = "#division";
+		if(id == 'tierSearch') {
+			divisionId = divisionId + "Search";
+		}
+		$(divisionId + " option").remove();
 		var unranked = ["언랭"];
 		var ranked = ["1", "2", "3", "4", "전체"];
 		
-		var target = $("#division");
+		var target = $(divisionId);
 		if(e.value == '언랭') {
 			var arr = unranked;
 		} else if(e.value == 'none'){
@@ -64,6 +69,26 @@
 			alert('티어를 반드시 지정해야합니다.');
 			return false;
 		}
+		data = $("#division").val();
+		if(data == 'none') {
+			alert('티어 단계를 반드시 지정해야합니다.');
+			return false;
+		}
+		return true;
+	}
+	
+	function searchFormCheck() {
+		// tier + division validation
+		var data = $("#tierSearch").val();
+		if(data == 'none') {
+			alert('티어를 반드시 지정해야합니다.');
+			return false;
+		}
+		data = $("#divisionSearch").val();
+		if(data == 'none') {
+			alert('티어 단계를 반드시 지정해야합니다.');
+			return false;
+		}
 		return true;
 	}
 </script>
@@ -86,7 +111,69 @@
 				<div id="accor-search-container">
 			    	<div class="collapse multi-collapse" id="accor-search">
 			      		<div class="card card-body">
-			      			
+			      			<form id="searchForm" action="${pageContext.request.contextPath }/matching/board/rank" method="post" onsubmit="return searchFormCheck();">
+			      				<div class="form-row">
+							    	<div class="form-group col-md-6">
+							      		<label for="tierSearch">티어</label>
+							      		<select id="tierSearch" name="tier" class="form-control" onchange="tierChange(this);">
+							        		<option value="none" selected="selected">-----------------</option>
+							        		<option value="언랭">언랭</option>
+							        		<option value="아이언">아이언</option>
+							        		<option value="브론즈">브론즈</option>
+							        		<option value="실버">실버</option>
+							        		<option value="골드">골드</option>
+							        		<option value="플레티넘">플레티넘</option>
+							        		<option value="다이아">다이아</option>
+							      		</select>
+							    	</div>
+							    	<div class="form-group col-md-6">
+							      		<label for="divisionSearch">단계</label>
+							      		<select id="divisionSearch" name="division" class="form-control">							      			
+							        		<option value="none" selected="selected">-----------------</option>
+							      		</select>
+							    	</div>
+							  	</div>
+							  	<div class="form-row">
+							    	<div class="form-group col-md-6">
+							      		<label for="queueTypeSearch">랭크 타입</label>
+							      		<select id="queueTypeSearch" name="queueType" class="form-control">
+							        		<option value="솔랭" selected="selected">솔로 랭크</option>
+							        		<option value="자랭">자유 랭크</option>
+							      		</select>
+							    	</div>
+							    	<div class="form-group col-md-6">
+							      		<label for="laneSearch">포지션</label>
+							      		<select id="laneSearch" name="lane" class="form-control">
+							        		<option value="전체" selected="selected">상관없음</option>
+							        		<option value="탑">탑</option>
+							        		<option value="미드">미드</option>
+							        		<option value="정글">정글</option>
+							        		<option value="서포터">서포터</option>
+							        		<option value="원딜">원딜</option>
+							      		</select>
+							    	</div>
+							  	</div>
+							  	<div class="form-row">
+							    	<div class="form-group col-md-6">
+							      		<label for="expectedTimeSearch">플레이 시간 대</label>
+							      		<select id="expectedTimeSearch" name="expectedTime" class="form-control">
+							        		<option value="전체" selected="selected">상관없음</option>
+							        		<option value="time1">00시-06시</option>
+							        		<option value="time2">06시-12시</option>
+							        		<option value="time3">12시-18시</option>
+							        		<option value="time4">18시-00시</option>
+							      		</select>
+							    	</div>
+							    	<div class="form-group col-md-6">
+							      		<label for="isVoiceSearch">보이스 사용 여부</label>
+							      		<select id="isVoiceSearch" name="isVoice" class="form-control">
+							        		<option value="전체" selected="selected">상관없음</option>
+							        		<option value="necessary">보이스 필수</option>
+							      		</select>
+							    	</div>
+							  	</div>
+							  	<button id="searchBtn" type="submit" class="btn btn-outline-danger">검색</button>
+			      			</form>
 			      		</div>
 			    	</div>
 				</div>
@@ -144,7 +231,7 @@
 							    	<div class="form-group col-md-6">
 							      		<label for="lane">포지션</label>
 							      		<select id="lane" name="lane" class="form-control">
-							        		<option value="무관" selected="selected">상관없음</option>
+							        		<option value="전체" selected="selected">상관없음</option>
 							        		<option value="탑">탑</option>
 							        		<option value="미드">미드</option>
 							        		<option value="정글">정글</option>
@@ -157,7 +244,7 @@
 							    	<div class="form-group col-md-6">
 							      		<label for="expectedTime">플레이 시간 대</label>
 							      		<select id="expectedTime" name="expectedTime" class="form-control">
-							        		<option value="all" selected="selected">상관없음</option>
+							        		<option value="전체" selected="selected">상관없음</option>
 							        		<option value="time1">00시-06시</option>
 							        		<option value="time2">06시-12시</option>
 							        		<option value="time3">12시-18시</option>
@@ -167,7 +254,7 @@
 							    	<div class="form-group col-md-6">
 							      		<label for="isVoice">보이스 사용 여부</label>
 							      		<select id="isVoice" name="isVoice" class="form-control">
-							        		<option value="all" selected="selected">상관없음</option>
+							        		<option value="전체" selected="selected">상관없음</option>
 							        		<option value="necessary">보이스 필수</option>
 							      		</select>
 							    	</div>
@@ -250,7 +337,7 @@
 											시간
 										</div >
 										<div class="dataArea">
-											<c:if test="${pvo.expectedTime eq 'all' }">
+											<c:if test="${pvo.expectedTime eq '전체' }">
 												모든 시간 가능
 											</c:if>
 											<c:if test="${pvo.expectedTime eq 'time1' }">
@@ -322,7 +409,7 @@
 				</div>
 				<!-- Paginatoon -->
 				<div id="board-pagination">
-					${pagingVO.pageListPost }
+					${pagingVO.getPageListPost(boardVO) }
 				</div>
 			</c:if>
 		</div>

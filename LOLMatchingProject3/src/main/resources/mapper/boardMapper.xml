@@ -3,8 +3,26 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.godz.dao.BoardDAO">
 		<!-- 1. 전체 개수 구하기 -->
-	<select id="selectCnt" resultType="int">
+	<select id="selectCnt" resultType="int" parameterType="HashMap">
 		select count(*) from memo_board
+		<if test="tier != null">
+			where tier = #{tier}
+		</if>
+		<if test="division != null and division != '전체'">
+			AND division = #{division}
+		</if>
+		<if test="queueType != null">
+			AND queueType = #{queueType}
+		</if>
+		<if test="lane != null and lane != '전체'">
+			AND lane = #{lane}
+		</if>
+		<if test="expectedTime != null and expectedTime != '전체'">
+			AND expectedTime = #{expectedTime}
+		</if>
+		<if test="isVoice != null and isVoice != '전체'">
+			AND isVoice = #{isVoice}
+		</if>
 	</select>
 
 	<!-- Memo에 에티어 저장 -->
@@ -14,18 +32,35 @@
 	</insert>
 	
 	<select id="selectList" resultType="BoardVO" parameterType="HashMap">
-		<![CDATA[
 		select 
 			Q.*	
 		from
 			(select 
 				rownum rnum, R.* 
 			from
-				(select * from memo_board order by idx desc) R
+				(select * from memo_board
+				<if test="tier != null">
+					where tier = #{tier}
+				</if>
+				<if test="division != null and division != '전체'">
+					AND division = #{division}
+				</if>
+				<if test="queueType != null">
+					AND queueType = #{queueType}
+				</if>
+				<if test="lane != null and lane != '전체'">
+					AND lane = #{lane}
+				</if>
+				<if test="expectedTime != null and expectedTime != '전체'">
+					AND expectedTime = #{expectedTime}
+				</if>
+				<if test="isVoice != null and isVoice != '전체'">
+					AND isVoice = #{isVoice}
+				</if>
+				order by idx desc) R
 			where
-				rownum <= #{endNo}) Q
+				rownum <![CDATA[<=]]> #{endNo}) Q
 		where
-			rnum >= #{startNo}	
-		]]>
+			rnum <![CDATA[>=]]> #{startNo}
 	</select>
 </mapper>

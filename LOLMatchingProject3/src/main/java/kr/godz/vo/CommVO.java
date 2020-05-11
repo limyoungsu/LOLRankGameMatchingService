@@ -14,7 +14,7 @@ public class CommVO {
 	// 브라우저로부터 요청값이 없는 경우 초기값 설정
 	private int p = 1;
 	private int s = 10;
-	private int b = 10;
+	private int b = 5;
 	private int m = 0;
 	
 	// 요청으로부터 받는 이름이 아닌 실제로 사용하는 변수의 이름
@@ -29,7 +29,7 @@ public class CommVO {
 	private int pageSize = 10;
 	
 	@XmlElement
-	private int blockSize = 10;
+	private int blockSize = 5;
 	
 	@XmlElement
 	private int mode = 0;
@@ -75,7 +75,7 @@ public class CommVO {
 	}
 	public void setB(int b) {
 		this.b = b;
-		blockSize = this.s;
+		blockSize = this.b;
 	}
 	public void setIdx(int idx) {
 		this.idx = idx;

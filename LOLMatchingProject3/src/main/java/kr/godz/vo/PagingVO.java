@@ -34,12 +34,15 @@ public class PagingVO<T> {
 		this.pageSize = pageSize;
 		this.blockSize = blockSize;
 		calc(); // 나머지 값을 계산해줄 메서드
+		System.out.println("전체 페이지 : " + totalPage);
+		System.out.println("시작 페이지 : " + startPage);
+		System.out.println("끝 페이지" + endPage);
 	}
 	private void calc() {
 		// 유효성 검사
 		if(currentPage<=0) currentPage=1;
 		if(pageSize<=0) pageSize=10;
-		if(blockSize<=0) blockSize=10;
+		if(blockSize<=0) blockSize=5;
 		// 데이터가 있을 경우에만 계산
 		if(totalCount>0) { 
 			// 전체페이지 = (개수-1)/페이지당글수 + 1;
@@ -223,19 +226,23 @@ public class PagingVO<T> {
 	
 	//----------------------------------------------------------------------------------------------------
 	// POST 전송
-	public String getPageListPost() {
+	public String getPageListPost(BoardVO boardVO) {
 		String pageList = "";
+		String searchStr = "";
+		if(boardVO.getTier() != null) {
+			searchStr = ",\"tier\":\""+boardVO.getTier()+"\",\"division\":\""+boardVO.getDivision()+"\",\"queueType\":\""+boardVO.getQueueType()+"\",\"lane\":\""+boardVO.getLane()+"\",\"expectedTime\":\""+boardVO.getExpectedTime()+"\",\"isVoice\":\""+boardVO.getIsVoice()+"\"";
+		}
 		if(totalPage>0) {
 			pageList += "<ul class='pagination pagination-sm justify-content-center'>";
 			// 시작페이지번호가 1보다 크다면 "이전"이 있다.
 			if(startPage>1) { 
 				pageList +="<li class='page-item'>";
-				pageList +="<a class='page-link'  href='#' onclick='post_to_url(\"?\",{\"p\":\""+(1)+"\",\"s\":\""+pageSize+"\",\"b\":\""+blockSize+"\"})'>";
+				pageList +="<a class='page-link'  href='#' onclick='post_to_url(\"?\",{\"p\":\""+(1)+"\",\"s\":\""+pageSize+"\",\"b\":\""+blockSize+"\""+searchStr+"})'>";
 				pageList +="처음";
 				pageList +="</a>";
 				pageList +="</li>";
 				pageList +="<li class='page-item'>";
-				pageList +="<a class='page-link'  href='#' onclick='post_to_url(\"?\",{\"p\":\""+(startPage-1)+"\",\"s\":\""+pageSize+"\",\"b\":\""+blockSize+"\"})'>";
+				pageList +="<a class='page-link'  href='#' onclick='post_to_url(\"?\",{\"p\":\""+(startPage-1)+"\",\"s\":\""+pageSize+"\",\"b\":\""+blockSize+"\""+searchStr+"})'>";
 				pageList +="이전";
 				pageList +="</a>";
 				pageList +="</li>";
@@ -250,7 +257,7 @@ public class PagingVO<T> {
 					pageList += "</li>";
 				}else {
 					pageList += "<li class='page-item'>";
-					pageList +="<a class='page-link' href='#' onclick='post_to_url(\"?\",{\"p\":\""+(i)+"\",\"s\":\""+pageSize+"\",\"b\":\""+blockSize+"\"})'>";
+					pageList +="<a class='page-link' href='#' onclick='post_to_url(\"?\",{\"p\":\""+(i)+"\",\"s\":\""+pageSize+"\",\"b\":\""+blockSize+"\""+searchStr+"})'>";
 					pageList += i;
 					pageList +="</a>";
 					pageList += "</li>";
@@ -259,12 +266,12 @@ public class PagingVO<T> {
 			// 마지막페이지번호가 전체페이지수 보다 적다면 "다음"이 있다.
 			if(endPage<totalPage) { 
 				pageList +="<li class='page-item'>";
-				pageList +="<a class='page-link'  href='#' onclick='post_to_url(\"?\",{\"p\":\""+(endPage+1)+"\",\"s\":\""+pageSize+"\",\"b\":\""+blockSize+"\"})'>";
+				pageList +="<a class='page-link'  href='#' onclick='post_to_url(\"?\",{\"p\":\""+(endPage+1)+"\",\"s\":\""+pageSize+"\",\"b\":\""+blockSize+"\""+searchStr+"})'>";
 				pageList +="다음";
 				pageList +="</a>";
 				pageList +="</li>";
 				pageList +="<li class='page-item'>";
-				pageList +="<a class='page-link'  href='#' onclick='post_to_url(\"?\",{\"p\":\""+(totalPage)+"\",\"s\":\""+pageSize+"\",\"b\":\""+blockSize+"\"})'>";
+				pageList +="<a class='page-link'  href='#' onclick='post_to_url(\"?\",{\"p\":\""+(totalPage)+"\",\"s\":\""+pageSize+"\",\"b\":\""+blockSize+"\""+searchStr+"})'>";
 				pageList +=" 끝 ";
 				pageList +="</a>";
 				pageList +="</li>";

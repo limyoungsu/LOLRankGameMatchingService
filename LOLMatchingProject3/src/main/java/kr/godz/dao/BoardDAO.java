@@ -11,9 +11,8 @@ public interface BoardDAO {
 	public void insertMemo(BoardVO vo);
 
 	// 2. 데이터의 총 갯수
-	public int selectCnt();
+	public int selectCnt(BoardVO vo);
 	
 	// 3. 페이지네이션
-	public List<BoardVO> selectList(HashMap<String, Integer> map);
-
+	public List<BoardVO> selectList(HashMap<String, String> map);
 }
