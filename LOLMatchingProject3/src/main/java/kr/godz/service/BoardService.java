@@ -1,8 +1,6 @@
 package kr.godz.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,5 +52,13 @@ public class BoardService {
 		
 		logger.info("selectList return : " + pagingVO);
 		return pagingVO;
+	}
+	
+	// 3. 자동 삭제
+	public void delete() {
+		logger.info("delete call");
+		boardDAO.delete();
+		logger.info("delete return");
+		return;
 	}
 }

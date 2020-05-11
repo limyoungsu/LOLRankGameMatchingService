@@ -75,15 +75,4 @@ public class BoardController {
 		logger.info("rankBoardWritePost return");
 		return "redirect:/matching/board/rank";
 	}
-	
-	
-//	@RequestMapping(value = "/matching/board/searchProcess")
-//	public String boardSearchGet(Model model, @ModelAttribute CommVO commVO,  @ModelAttribute BoardVO boardVO) {
-//		logger.info("boardSearchGet call : " + boardVO);
-//		PagingVO<BoardVO> pagingVO = boardService.selectSearchedList(commVO.getCurrentPage(), commVO.getPageSize(), commVO.getBlockSize(), boardVO);
-//		model.addAttribute("pagingVO", pagingVO);
-//		
-//		logger.info("boardSearchGet return");
-//		return "/matching/board";
-//	}
 }

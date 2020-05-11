@@ -15,4 +15,7 @@ public interface BoardDAO {
 	
 	// 3. 페이지네이션
 	public List<BoardVO> selectList(HashMap<String, String> map);
+
+	// 4. 게시글 자동 삭제
+	public void delete();
 }
