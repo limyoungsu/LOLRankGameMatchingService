@@ -59,7 +59,7 @@ public class BoardController {
 	}
 	
 	
-	@RequestMapping(value = "/matching/board/writeProcess", method = RequestMethod.GET)
+	@RequestMapping(value = "/matching/board/write-working", method = RequestMethod.GET)
 	public String rankBoardWriteGet() {
 		logger.info("rankBoardWriteGet call");
 		logger.info("rankBoardWriteGet return");
@@ -67,7 +67,7 @@ public class BoardController {
 	}
 	
 	
-	@RequestMapping(value = "/matching/board/writeProcess", method = RequestMethod.POST)
+	@RequestMapping(value = "/matching/board/write-working", method = RequestMethod.POST)
 	public String rankBoardWritePost(@ModelAttribute BoardVO boardVO) {
 		logger.info("rankBoardWritePost call : " + boardVO);
 		boardService.insertMemo(boardVO);

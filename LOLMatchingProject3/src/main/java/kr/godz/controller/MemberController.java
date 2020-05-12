@@ -160,8 +160,15 @@ public class MemberController {
 		return "member/secession";
 	}
 	
-	@RequestMapping(value = "/member/secessionProcess", method = RequestMethod.POST)
-	public String memberSecessionProcess(@RequestParam(value = "password") String password, @RequestParam(value = "userId") String userId, 
+	@RequestMapping(value = "/member/secession-working", method = RequestMethod.GET)
+	public String memberSecessionProcessGet() {
+		logger.info("memberSecessionProcessGet call");
+		logger.info("memberSecessionProcessGet return");
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value = "/member/secession-working", method = RequestMethod.POST)
+	public String memberSecessionProcessPost(@RequestParam(value = "password") String password, @RequestParam(value = "userId") String userId, 
 										HttpServletRequest request, Model model) {
 		boolean res = memberService.secession(userId, password);
 		if(res) {

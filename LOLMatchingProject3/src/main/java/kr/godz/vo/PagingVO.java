@@ -112,14 +112,19 @@ public class PagingVO<T> {
 	
 	
 	// 하단의 페이지번호 리스트를 문자열로 리턴하는 메서드 추가!!!!
-	public String getPageList() {
+	public String getPageList(BoardVO boardVO) {
 		String pageList = "";
+		String searchStr = "";
+		if(boardVO.getTier() != null) {
+			searchStr = "&tier="+boardVO.getTier()+"&division="+boardVO.getDivision()+"&queueType="+boardVO.getQueueType()+
+					"&lane="+boardVO.getLane()+"&expectedTime="+boardVO.getExpectedTime()+"&isVoice="+boardVO.getIsVoice();
+		}
 		if(totalPage>0) {
 			pageList += "<ul class='pagination pagination-sm justify-content-center'>";
 			// 시작페이지번호가 1보다 크다면 "이전"이 있다.
 			if(startPage>1) { 
 				pageList +="<li class='page-item'>";
-				pageList +="<a class='page-link' href='?p="+(startPage-1)+"&s="+pageSize+"&b="+blockSize+"'>";
+				pageList +="<a class='page-link' href='?p="+(startPage-1)+"&s="+pageSize+"&b="+blockSize+searchStr+"'>";
 				pageList +="이전";
 				pageList +="</a>";
 				pageList +="</li>";
@@ -134,7 +139,7 @@ public class PagingVO<T> {
 					pageList += "</li>";
 				}else {
 					pageList += "<li class='page-item'>";
-					pageList +="<a class='page-link' href='?p="+(i)+"&s="+pageSize+"&b="+blockSize+"'>";
+					pageList +="<a class='page-link' href='?p="+(i)+"&s="+pageSize+"&b="+blockSize+searchStr+"'>";
 					pageList += i;
 					pageList +="</a>";
 					pageList += "</li>";
@@ -143,7 +148,7 @@ public class PagingVO<T> {
 			// 마지막페이지번호가 전체페이지수 보다 적다면 "다음"이 있다.
 			if(endPage<totalPage) { 
 				pageList +="<li class='page-item'>";
-				pageList +="<a class='page-link' href='?p="+(endPage+1)+"&s="+pageSize+"&b="+blockSize+"'>";
+				pageList +="<a class='page-link' href='?p="+(endPage+1)+"&s="+pageSize+"&b="+blockSize+searchStr+"'>";
 				pageList +="다음";
 				pageList +="</a>";
 				pageList +="</li>";

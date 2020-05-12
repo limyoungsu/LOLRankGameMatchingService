@@ -111,7 +111,7 @@
 				<div id="accor-search-container">
 			    	<div class="collapse multi-collapse" id="accor-search">
 			      		<div class="card card-body">
-			      			<form id="searchForm" action="${pageContext.request.contextPath }/matching/board/rank" method="post" onsubmit="return searchFormCheck();">
+			      			<form id="searchForm" action="${pageContext.request.contextPath }/matching/board/rank" method="get" onsubmit="return searchFormCheck();">
 			      				<div class="form-row">
 							    	<div class="form-group col-md-6">
 							      		<label for="tierSearch">티어</label>
@@ -180,7 +180,7 @@
 				<div id="accor-write-container">
 					<div class="collapse multi-collapse" id="accor-write">
 						<div class="card card-body">
-							<form id="writeForm" action="${pageContext.request.contextPath }/matching/board/writeProcess" method="POST" onsubmit="return formCheck();">
+							<form id="writeForm" action="${pageContext.request.contextPath }/matching/board/write-working" method="POST" onsubmit="return formCheck();">
 								<div class="form-row">
 									<div class="form-group col-md-6">
 							      		<label for="nickName">닉네임</label>
@@ -409,7 +409,7 @@
 				</div>
 				<!-- Paginatoon -->
 				<div id="board-pagination">
-					${pagingVO.getPageListPost(boardVO) }
+					${pagingVO.getPageList(boardVO) }
 				</div>
 			</c:if>
 		</div>

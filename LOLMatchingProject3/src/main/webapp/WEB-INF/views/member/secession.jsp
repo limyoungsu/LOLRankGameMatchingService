@@ -33,7 +33,7 @@
 </head>
 <body>
 	<div class="main-container" style="padding-top: 175px;">
-		<form id="formbox" action="${pageContext.request.contextPath }/member/secessionProcess" method="post" onsubmit="return formCheck();">
+		<form id="formbox" action="${pageContext.request.contextPath }/member/secession-working" method="post" onsubmit="return formCheck();">
 			<span class="title">회원 탈퇴</span>
 			<input type="hidden" name="userId" value="${userId }"/>
 			<div class="input-container">
