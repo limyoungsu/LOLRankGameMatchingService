@@ -17,7 +17,7 @@ public class MatchDetailVO {
 		
 		@Data
 		public class PlayerVO {
-			private String summonerName;
+			private String summonerId;
 		}
 	}
 	

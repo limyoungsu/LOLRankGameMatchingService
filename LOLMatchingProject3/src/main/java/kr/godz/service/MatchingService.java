@@ -162,7 +162,7 @@ public class MatchingService {
 //			System.out.println(matchInfo.getRoleCnt());
 //			System.out.println("신뢰도" + matchInfo.getReliability());
 			
-			matchInfo = getChampionRecords(svo.getName() ,matchInfo, gson);
+			matchInfo = getChampionRecords(svo.getId() ,matchInfo, gson);
 			if(matchInfo.getMatches().length != 0) {			
 				soloLastGameTime = matchInfo.getMatches()[0].getTimestamp();
 			}
@@ -186,7 +186,7 @@ public class MatchingService {
 //			System.out.println(matchInfo.getRoleCnt());
 //			System.out.println("신뢰도" + matchInfo.getReliability());
 			
-			matchInfo = getChampionRecords(svo.getName() ,matchInfo, gson);
+			matchInfo = getChampionRecords(svo.getId() ,matchInfo, gson);
 			if(matchInfo.getMatches().length != 0) {			
 				flexLastGameTime = matchInfo.getMatches()[0].getTimestamp();
 			}
@@ -210,8 +210,8 @@ public class MatchingService {
 	}
 	
 	
-	public MatchInfoVO getChampionRecords(String summonerName, MatchInfoVO matchInfo, Gson gson) throws JsonSyntaxException, JsonIOException, MalformedURLException, IOException {
-		logger.info("getChampionRecords call : " + summonerName);
+	public MatchInfoVO getChampionRecords(String summonerId, MatchInfoVO matchInfo, Gson gson) throws JsonSyntaxException, JsonIOException, MalformedURLException, IOException {
+		logger.info("getChampionRecords call : " + summonerId);
 		
 		ChampionRecordVO crMap = null;
 		
@@ -225,6 +225,8 @@ public class MatchingService {
 			matchInfo.getChampionRecordMap().put(most3champ.get(i), new ChampionRecordVO());
 		}
 		
+		System.out.println("모스트 3 챔프 리스트 : " + most3champ);
+		
 		// When Matches.length < 20, repeat count is length, otherwise repeat count is 20
 		// matches 배열의 데이터가 최대 100개이지만 100개보다 작은 사람도 있음. 그 중에서도 챔프 정리에 대한 건 20개까지만 할 것
 		// 즉, matches 배열의 길이가 20보다 작으면 배열 길이만큼 반복하면 되고, 20 이상이면 20으로 고정길이를 가진다.
@@ -232,18 +234,20 @@ public class MatchingService {
 		for(int i = 0; i < matchesCnt; i++) {
 			String gameId = matchInfo.getMatches()[i].getGameId() + "";
 			String urlAddress = "https://kr.api.riotgames.com/lol/match/v4/matches/" + gameId + "?api_key=" + key;
+			System.out.println(urlAddress);
 			MatchDetailVO matchDvo = gson.fromJson(new InputStreamReader(new URL(urlAddress).openStream()), MatchDetailVO.class);
 			
 			// 한 matchId에 대해 참가자 10명에 대해
 			for(int j = 0; j < matchDvo.getParticipantIdentities().length; j++) {
 				// 본인 이름과 동일한 참가자의 번호(participantId) 찾기
-				if(matchDvo.getParticipantIdentities()[j].getPlayer().getSummonerName().equals(summonerName)) {
+				if(matchDvo.getParticipantIdentities()[j].getPlayer().getSummonerId().equals(summonerId)) {
 					int pNum = matchDvo.getParticipantIdentities()[j].getParticipantId();
 					matchDvo.setParticipantId(pNum);
 					// System.out.println("참가자 번호 : " + matchDvo.getParticipantId());
 					
 					// 참가자 번호로 ParticipantVO에 접근, most3Champ 안에 있는 champ인지 확인 한다.
 					String champId = matchDvo.getParticipants()[matchDvo.getParticipantId() - 1].getChampionId()+"";
+					System.out.println("챔프 ID : " + champId);
 					crMap = matchInfo.getChampionRecordMap().get(champId);
 					if(most3champ.contains(champId)) {
 						// 있으면 StatVO 정보를  MatchInfo의 championRecordMap으로 가져간다.
@@ -270,7 +274,7 @@ public class MatchingService {
 			}
 		}
 		
-		logger.info("getChampionRecords return : " + crMap);
+		logger.info("getChampionRecords return : " + matchInfo.getChampionRecordMap());
 		return matchInfo;
 	}
 
