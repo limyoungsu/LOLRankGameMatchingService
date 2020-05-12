@@ -65,13 +65,6 @@
 	</select>
 	
 	<delete id="delete">
-		delete 
-		from 
-			memo_board
-		where
-			(SELECT 
-				EXTRACT(HOUR FROM (SELECT sysdate - (SELECT REGDATE FROM MEMO_BOARD mb ) FROM dual)) +
-				EXTRACT(DAY FROM (SELECT sysdate - (SELECT REGDATE FROM MEMO_BOARD mb ) FROM dual)) * 24
-			FROM dual) <![CDATA[>=]]> 24
+		DELETE FROM (SELECT sysdate-REGDATE FROM MEMO_BOARD WHERE EXTRACT(day FROM (sysdate-REGDATE)) >= 1);
 	</delete>
 </mapper>

@@ -62,6 +62,7 @@
 	<task:scheduler id="scheduler" pool-size="10"/>
 	
 	<task:scheduled-tasks scheduler="scheduler">
+		<!-- 00시00분00초부터 3시간 주기로 -->
 		<task:scheduled ref="schedulingService" method="boardAutoDelete" cron="0 0 0/3 * * ?"/>
 	</task:scheduled-tasks>
 </beans>
