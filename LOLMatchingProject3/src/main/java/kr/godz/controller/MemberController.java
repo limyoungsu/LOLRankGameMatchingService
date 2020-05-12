@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -53,8 +54,9 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/member/join")
-	public String join() {
+	public String join(Model model) {
 		logger.info("join call");
+		model.addAttribute("function", "join");
 		return "member/join";
 	}
 	
@@ -149,14 +151,24 @@ public class MemberController {
         return "accessDenied";
     }
 	
+	@RequestMapping(value = "/member/secession", method = RequestMethod.GET)
+	public String memberSecessionGet() {
+		logger.info("memberSecessionGet call");
+		logger.info("memberSecessionGet return");
+		return "redirect:/";
+	}
+	
 	@RequestMapping(value = "/member/secession", method = RequestMethod.POST)
-	public String memberSecession(Model model, @RequestParam(value = "userId") String userId, @RequestParam(value = "error", required = false) String error) {
+	public String memberSecessionPost(Model model, @RequestParam(value = "userId") String userId, @RequestParam(value = "error", required = false) String error) {
+		logger.info("memberSecession call : " + userId + ", " + error);
 		model.addAttribute("userId", userId);
+		model.addAttribute("function", "secession");
 		if(error != null) {
 			if(error.equals("mismatchError")) {
 				model.addAttribute("errMsg", "아이디와 비밀번호를 다시 확인해주세요.");				
 			}
 		}
+		logger.info("memberSecession return");
 		return "member/secession";
 	}
 	
@@ -170,14 +182,76 @@ public class MemberController {
 	@RequestMapping(value = "/member/secession-working", method = RequestMethod.POST)
 	public String memberSecessionProcessPost(@RequestParam(value = "password") String password, @RequestParam(value = "userId") String userId, 
 										HttpServletRequest request, Model model) {
-		boolean res = memberService.secession(userId, password);
+		boolean res = memberService.matchingPassword(userId, password);
 		if(res) {
+			memberService.delete(userId);
+			memberService.deleteRole(userId);
 			request.getSession().invalidate();
 			return "redirect:/";			
 		} else {
 			model.addAttribute("userId", userId);
 			return "forward:/member/secession?error=mismatchError";
 		}
+	}
+	
+	@RequestMapping(value = "/member/modify", method = RequestMethod.GET)
+	public String memberModifyGet() {
+		logger.info("memberModifyGet call");
+		logger.info("memberModifyGet return");
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value = "/member/modify", method = RequestMethod.POST)
+	public String memberModifyPost(Model model, @RequestParam(value = "userId") String userId, @RequestParam(value = "error", required = false) String error) {
+		logger.info("memberModifyPost call : " + userId + ", " + error);
+		model.addAttribute("userId", userId);
+		model.addAttribute("function", "modify");
+		if(error != null) {
+			if(error.equals("mismatchError")) {
+				model.addAttribute("errMsg", "아이디와 비밀번호를 다시 확인해주세요.");				
+			}
+		}
+		
+		logger.info("memberModifyPost return");
+		return "member/secession";
+	}
+	
+	@RequestMapping(value = "/member/modifyform", method = RequestMethod.GET)
+	public String memberModifyFormGet() {
+		logger.info("memberModifyFormGet call");
+		logger.info("memberModifyFormGet return");
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value = "/member/modifyform", method = RequestMethod.POST)
+	public String memberModifyFormPost(Model model, @RequestParam(value = "password") String password, @RequestParam(value = "userId") String userId) {
+		logger.info("memberModifyFormPost call : " + userId + ", " + password);
+		boolean res = memberService.matchingPassword(userId, password);
+		logger.info("memberModifyFormPost return");
+		model.addAttribute("function", "modify");
+		if(res) {
+			MemberVO vo = memberService.selectByUserId(userId);
+			model.addAttribute("vo", vo);
+			return "/member/join";			
+		} else {
+			model.addAttribute("userId", userId);
+			return "forward:/member/modify?error=mismatchError";
+		}
+	}
+	
+	@RequestMapping(value = "/member/modify-working", method = RequestMethod.GET)
+	public String memberModifyProcessGet() {
+		logger.info("memberModifyProcessGet call");
+		logger.info("memberModifyProcessGet return");
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value = "/member/modify-working", method = RequestMethod.POST)
+	public String memberModifyProcessPost(@ModelAttribute MemberVO vo) {
+		logger.info("memberModifyProcessPost call : " + vo);
+		memberService.update(vo);
+		logger.info("memberModifyProcessPost return");
+		return "redirect:/";
 	}
 	
 	private String getPrincipal(){

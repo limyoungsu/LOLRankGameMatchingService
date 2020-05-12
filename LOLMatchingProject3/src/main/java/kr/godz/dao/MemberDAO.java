@@ -26,5 +26,8 @@ public interface MemberDAO {
 
 	// 계정에 대한 권한 삭제
 	public void deleteRole(String userId);
+	
+	// 계정 정보 수정
+	public void update(MemberVO vo);
 
 }

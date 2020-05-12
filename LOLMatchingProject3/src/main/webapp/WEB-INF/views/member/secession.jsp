@@ -5,7 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<c:if test="${function eq 'modify' }">
+<title>정보 수정</title>
+</c:if>
+<c:if test="${function eq 'secession' }">
+<title>회원 탈퇴</title>
+</c:if>
 <script type="text/javascript">
 	function formCheck() {
 		var data = $("#password").val();
@@ -33,8 +38,14 @@
 </head>
 <body>
 	<div class="main-container" style="padding-top: 175px;">
-		<form id="formbox" action="${pageContext.request.contextPath }/member/secession-working" method="post" onsubmit="return formCheck();">
+		<c:if test="${function eq 'secession' }">
+			<form id="formbox" action="${pageContext.request.contextPath }/member/secession-working" method="post" onsubmit="return formCheck();">				
 			<span class="title">회원 탈퇴</span>
+		</c:if>
+		<c:if test="${function eq 'modify' }">
+			<form id="formbox" action="${pageContext.request.contextPath }/member/modifyform" method="post" onsubmit="return formCheck();">		
+			<span class="title">정보 수정</span>
+		</c:if>
 			<input type="hidden" name="userId" value="${userId }"/>
 			<div class="input-container">
 				<div class="input-name">비밀번호</div>
@@ -55,8 +66,13 @@
 					<c:out value="${errMsg }"></c:out>
 				</span>
 			</div>
-			<div id="btn-container">			
-				<button class="btn btn-danger btn-func" type="submit">탈퇴</button>
+			<div id="btn-container">		
+				<c:if test="${function eq 'secession' }">
+					<button class="btn btn-danger btn-func" type="submit">탈퇴</button>
+				</c:if>	
+				<c:if test="${function eq 'modify' }">
+					<button class="btn btn-danger btn-func" type="submit">확인</button>
+				</c:if>	
 				<button class="btn btn-danger btn-func" type="button" onclick="location.href='${pageContext.request.contextPath}/'">홈으로</button>
 			</div>
 		</form>

@@ -1,10 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Join Page</title>
+<c:if test="${function eq 'modify' }">
+<title>정보 수정</title>
+</c:if>
+<c:if test="${function eq 'join' }">
+<title>회원가입</title>
+</c:if>
 <style type="text/css">
 
 </style>
@@ -228,17 +234,30 @@
 </script>
 </head>
 <body>
-	<div id="join-main" class="main-container">			
-		<span class="title">JOIN</span>
-		<!-- onsubmit으로 data 유효성도 체크해줘야함 -->
-		<form id="formbox" action="${pageContext.request.contextPath }/member/joinComplete" method="post" onsubmit="return formCheck();">
+	<div id="join-main" class="main-container">
+		<c:if test="${function eq 'modify' }">
+			<span class="title">정보 수정</span>
+			<form id="formbox" action="${pageContext.request.contextPath }/member/modify-working" method="post" onsubmit="return formCheck();">
+		</c:if>
+		<c:if test="${function eq 'join' }">
+			<span class="title">JOIN</span>
+			<form id="formbox" action="${pageContext.request.contextPath }/member/joinComplete" method="post" onsubmit="return formCheck();">
+		</c:if>			
 			<div class="input-container">
 				<div class="input-name">계정 이름</div>
 				<div>
-					<input type="text" name="userId" id="userId" placeholder="계정 이름  : 메일주소" maxlength="20" onkeyup="idCheck(this.value, '10', 'idCheck');"/> 			
-				</div>
-				<div class="validation-container">
-					<span id="idCheckValidation"></span> 
+					<c:if test="${function eq 'modify' }">
+						<input type="text" name="userId" id="userId" placeholder="계정 이름  : 메일주소" maxlength="20" readonly="readonly" value="${vo.userId }"/> 			
+						<div class="validation-container">
+							<span id="idCheckValidation" style="color:rgb(0, 255, 127);"></span> 
+						</div>
+					</c:if>
+					<c:if test="${function eq 'join' }">
+						<input type="text" name="userId" id="userId" placeholder="계정 이름  : 메일주소" maxlength="20" onkeyup="idCheck(this.value, '10', 'idCheck');"/> 			
+						<div class="validation-container">
+							<span id="idCheckValidation"></span> 
+						</div>
+					</c:if>
 				</div>
 			</div>
 			
@@ -259,7 +278,12 @@
 			<div class="input-container">
 				<div class="input-name">사용자 이름</div>
 				<div>
-					<input type="text" name="userName" maxlength="20" id="userName" placeholder="사용자 이름"/>
+					<c:if test="${function eq 'modify' }">
+						<input type="text" name="userName" maxlength="20" id="userName" value="${vo.userName }" readonly="readonly"/>
+					</c:if>
+					<c:if test="${function eq 'join' }">
+						<input type="text" name="userName" maxlength="20" id="userName" placeholder="사용자 이름"/>
+					</c:if>
 				</div>
 			</div>
 			
@@ -276,8 +300,14 @@
 			<div class="input-container">
 				<div class="input-name">소환사 이름</div>
 				<div>
-					<input style="width: 195px;" type="text" name="summonerName" maxlength="20" id="summonerName" placeholder="LOL 소환사 이름"/> 			
-					<input style="width: 50px;" type="button" value="인증" onclick="summonerNameCheck();">
+					<c:if test="${function eq 'modify' }">
+						<input style="width: 195px;" type="text" name="summonerName" maxlength="20" id="summonerName" value="${vo.summonerName }" readonly="readonly"/> 			
+						<input style="width: 50px;" type="button" value="인증">
+					</c:if>
+					<c:if test="${function eq 'join' }">
+						<input style="width: 195px;" type="text" name="summonerName" maxlength="20" id="summonerName" placeholder="LOL 소환사 이름"/> 			
+						<input style="width: 50px;" type="button" value="인증" onclick="summonerNameCheck();">
+					</c:if>
 				</div>
 				<div class="validation-container">
 					<span id="summonerNameCheckValidation"></span> 
@@ -285,9 +315,11 @@
 			</div>
 			
 			<div class="input-container">
-				<div class="input-name">생년월일</div>
 				<div>			
-					<input class="input--style-2 js-datepicker" type="text" name="birth" id="birth" placeholder="생년월일" readonly="readonly"> 
+					<c:if test="${function eq 'join' }">
+						<div class="input-name">생년월일</div>
+						<input class="input--style-2 js-datepicker" type="text" name="birth" id="birth" placeholder="생년월일" readonly="readonly"> 
+					</c:if>
 				</div>
 			</div>
 			
@@ -298,8 +330,13 @@
 				</div>
 			</div>
 			
-			<div id="btn-container">		
-				<button class="btn btn-danger btn-func" type="submit">회원가입</button>
+			<div id="btn-container">
+				<c:if test="${function eq 'modify' }">
+					<button class="btn btn-danger btn-func" type="submit">수정하기</button>
+				</c:if>
+				<c:if test="${function eq 'join' }">
+					<button class="btn btn-danger btn-func" type="submit">회원가입</button>
+				</c:if>		
 				<!-- form안에서 input type을 button으로 하면 action 주소로 안가게 할 수 있음. -->
 				<button class="btn btn-danger btn-func" type="button" onclick="location.href='${pageContext.request.contextPath}/'">홈으로</button>
 			</div>

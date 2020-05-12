@@ -188,16 +188,40 @@ public class MemberService {
 	}
 
 	
-	public boolean secession(String userId, String password) {
+	public boolean matchingPassword(String userId, String password) {
 		MemberVO dbvo = selectByUserId(userId);
 		if(dbvo != null) {
 			if(bCryptPasswordEncoder.matches(password, dbvo.getPassword())) {
-				// delete 작업
-				memberDAO.delete(userId);
-				memberDAO.deleteRole(userId);
 				return true;
+			} else {
+				return false;
 			}
 		}
 		return false;
+	}
+	
+	
+	public void delete(String userId) {
+		logger.info("delete call : " + userId);
+		memberDAO.delete(userId);
+		logger.info("delete return");
+		return;
+	}
+	
+	
+	public void deleteRole(String userId) {
+		logger.info("deleteRole call : " + userId);
+		memberDAO.deleteRole(userId);
+		logger.info("deleteRole return");
+		return;
+	}
+
+	public void update(MemberVO vo) {
+		logger.info("update call : " + vo);
+		String encPassword = bCryptPasswordEncoder.encode(vo.getPassword());
+		vo.setPassword(encPassword);
+		memberDAO.update(vo);
+		logger.info("update return");
+		return;
 	}
 }

@@ -35,4 +35,8 @@
 	<delete id="deleteRole" parameterType="java.lang.String">
 		delete from lol_member_role where userId = #{userId}
 	</delete>
+	
+	<update id="update" parameterType="MemberVO">
+		update lol_member set password = #{password}, nickName=#{nickName}, phone=#{phone} where userId = #{userId}
+	</update>
 </mapper>
