@@ -265,4 +265,31 @@ public class MemberController {
         }
         return userName;
     }
+	
+	@RequestMapping(value = "/member/help/id")
+	public String searchId() {
+		logger.info("searchId call");
+		logger.info("searchId return");
+		return "";
+	}
+	
+	@RequestMapping(value = "/member/help/pw")
+	public String searchPassword() {
+		logger.info("searchPassword call");
+		logger.info("searchPassword return");
+		return "member/help";
+	}
+	
+	@RequestMapping(value = "/member/sendpw")
+	public String searchPasswordProcess(@RequestParam String userId) {
+		logger.info("searchPasswordProcess call : " + userId);
+		memberService.sendEmailUserPw(userId);		
+		logger.info("searchPasswordProcess return");
+		return "redirect:/member/mailSend2";
+	}
+	
+	@RequestMapping(value = "/member/mailSend2")
+	public String mailSend2() {
+		return "mailSend2";
+	}
 }

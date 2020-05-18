@@ -34,13 +34,6 @@
 	});
 	// 입력값이 올바른지 검사하기 위해
 	function formCheck() {
-		// LOGIC
-		if($("#idCheckValidation").css('color') != 'rgb(0, 255, 127)'){
-			alert('중복된 아이디입니다.');
-			$("#userId").val("");
-			$("#userId").focus();
-			return false;
-		}
 		// id 입력
 		var data = $("#userId").val();
 		if(!data || data.trim().length==0){
@@ -53,6 +46,13 @@
 		if(!validateEmail(data)){
 			alert('아이디가 이메일 형식이 아닙니다.');
 			$("#userId").val(data);
+			$("#userId").focus();
+			return false;
+		}
+		// LOGIC
+		if($("#idCheckValidation").css('color') != 'rgb(0, 255, 127)'){
+			alert('중복된 아이디입니다.');
+			$("#userId").val("");
 			$("#userId").focus();
 			return false;
 		}

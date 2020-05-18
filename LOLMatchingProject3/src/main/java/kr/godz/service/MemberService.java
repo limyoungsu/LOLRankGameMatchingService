@@ -58,7 +58,7 @@ public class MemberService {
 		// lol_member_role table에 권한 정보 저장 : 기본값은 USER
 		memberDAO.insertRole(vo.getUserId());
 		
-		sendEmail(vo);
+		sendEmail(vo, "join");
 	}
 	
 	public MemberVO selectByUserId(String userId) {
@@ -142,8 +142,9 @@ public class MemberService {
 	}
 	
 	
-	public void sendEmail(MemberVO memberVO) {
-        MimeMessagePreparator preparator = getMessagePreparator(memberVO);
+	public void sendEmail(MemberVO memberVO, String func) {
+		logger.info("sendEmail : " + memberVO + ", " + func);
+        MimeMessagePreparator preparator = getMessagePreparator(memberVO, func);
         try {
             mailSender.send(preparator);
             System.out.println("**************************** Mail Send Success ****************************");
@@ -153,25 +154,43 @@ public class MemberService {
     }
  
 	
-    private MimeMessagePreparator getMessagePreparator(final MemberVO memberVO) {
+    private MimeMessagePreparator getMessagePreparator(final MemberVO memberVO, String func) {
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
  
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 mimeMessage.setFrom("lys7120@gmail.com");	// 인자 : memberVO.getUserId로 보내면 됨
                 mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(memberVO.getUserId()));
-                mimeMessage.setText("반갑습니다. " + memberVO.getUserName() + "님.<br>"
-			                        + "회원 가입을 축하드립니다.<br> "
-			                		+ "회원 가입을 완료하려면 다음의 링크를 클릭해서 인증을 완료하시기 바랍니다.<br>"
-			                        + "<a href='http://localhost:8081/lol/member/confirm?userId="+memberVO.getUserId()
-			                        + "&emailToken="+memberVO.getEmailToken()+"'>인증</a><br>");
-                // 위의 url에 random key도 추가해서 넘기자
-                mimeMessage.setSubject("[LOL자]회원 가입을 축하드립니다.");
+                
+                if(func.equals("join")) {
+                	mimeMessage.setText("반갑습니다. " + memberVO.getUserName() + "님.<br>"
+                			+ "회원 가입을 축하드립니다.<br> "
+                			+ "회원 가입을 완료하려면 다음의 링크를 클릭해서 인증을 완료하시기 바랍니다.<br>"
+                			+ "<a href='http://localhost:8081/lol/member/confirm?userId="+memberVO.getUserId()
+                			+ "&emailToken="+memberVO.getEmailToken()+"'>인증</a><br>");
+                	// 위의 url에 random key도 추가해서 넘기자
+                	mimeMessage.setSubject("[LOL자]회원 가입을 축하드립니다.");                	
+                }
+                else if(func.equals("help")) {
+                	// Random password generate (length = 12)
+                	String randPw = generateToken(12);
+                	
+                	// DB commit to new password
+                	memberVO.setPassword(randPw);
+                	update(memberVO);
+                	
+                	// Mail Send
+                	mimeMessage.setText(memberVO.getUserName() + "님.<br>"
+                			+ "아래 초기화된 비밀번호로 로그인하여 비밀번호를 변경해주시기 바랍니다. <br>"
+                			+ randPw + "<br>");
+                	// 위의 url에 random key도 추가해서 넘기자
+                	mimeMessage.setSubject("[LOL자]초기화 비밀번호입니다.");    
+                }
             }
         };
         return preparator;
     }
 
-    
+
 	public void updateUseType(String userId, String emailToken) {
 		// userId가 가진 emailToken과 쿼리스트링 emailToken이 맞으면 Update
 		// 1. userId로 VO 찾아온다
@@ -222,6 +241,16 @@ public class MemberService {
 		vo.setPassword(encPassword);
 		memberDAO.update(vo);
 		logger.info("update return");
+		return;
+	}
+
+	public void sendEmailUserPw(String userId) {
+		logger.info("sendEmailUserPw call : " + userId);
+		MemberVO vo = selectByUserId(userId);
+		if(vo != null) {
+			sendEmail(vo, "help");
+		}
+		logger.info("sendEmailUserPw return");
 		return;
 	}
 }

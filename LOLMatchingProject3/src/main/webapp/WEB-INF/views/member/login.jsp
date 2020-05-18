@@ -84,8 +84,8 @@
 			
     		<!-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> -->
 			<a class="member-func" href="${pageContext.request.contextPath }/member/join"> 회원가입 </a> <br />
-			<a class="member-func" href="${pageContext.request.contextPath }/member/idSearch"> 아이디 찾기 </a> <br />
-			<a class="member-func" href="${pageContext.request.contextPath }/member/passwordSearch"> 비밀번호 찾기 </a> <br />
+			<a class="member-func" href="${pageContext.request.contextPath }/member/help/id"> 아이디 찾기 </a> <br />
+			<a class="member-func" href="${pageContext.request.contextPath }/member/help/pw"> 비밀번호 찾기 </a> <br />
 	
 			<div id="btn-container">			
 				<button class="btn btn-danger btn-func" type="submit">로그인</button>
