@@ -65,6 +65,6 @@
 	</select>
 	
 	<delete id="delete">
-		DELETE FROM (SELECT sysdate-REGDATE FROM MEMO_BOARD WHERE EXTRACT(day FROM (sysdate-REGDATE)) >= 1);
+		delete from memo_board where EXTRACT(day FROM (sysdate-REGDATE)) >= 1;
 	</delete>
 </mapper>
